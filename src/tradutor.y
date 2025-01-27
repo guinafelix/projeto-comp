@@ -183,30 +183,6 @@ comando:
             asprintf(&$$, "%s = %s;", $1, $3);
         }
     }
-    | IDENTIFICADOR IGUALDADE NUM PONTO_E_VIRGULA {
-        printf("Parsed numeric assignment: %s = %d\n", $1, $3);
-        verificarUsoVariavel($1);
-        char *tipoVar = obterTipoVariavel($1);
-        if (tipoVar && strcmp(tipoVar, "int") != 0) {
-            yyerror("Erro Semântico: Tentativa de usar uma variável do tipo errado.");
-        } else {
-            char numStr[20];
-            sprintf(numStr, "%d", $3);
-            atualizarValorVariavel($1, numStr);
-            asprintf(&$$, "%s = %d;", $1, $3);
-        }
-    }
-    | IDENTIFICADOR IGUALDADE STRING PONTO_E_VIRGULA {
-        printf("Parsed string assignment: %s = %s\n", $1, $3);
-        verificarUsoVariavel($1);
-        char *tipoVar = obterTipoVariavel($1);
-        if (tipoVar && strcmp(tipoVar, "String") != 0) {
-            yyerror("Erro Semântico: Tentativa de usar uma variável do tipo errado.");
-        } else {
-            atualizarValorVariavel($1, $3);
-            asprintf(&$$, "%s = %s;", $1, $3);
-        }
-    }
     | CONFIGURAR IDENTIFICADOR COMO SAIDA PONTO_E_VIRGULA {
         printf("Parsed pin configuration: %s as output\n", $2);
         verificarUsoVariavel($2);
@@ -272,6 +248,10 @@ comando:
     | SE condicao ENTAO comandos FIM {
         printf("Parsed conditional (if)\n");
         asprintf(&$$, "if (%s) {\n%s\n}", $2, $4);
+    }
+    | ENQUANTO condicao comandos FIM {
+        printf("Parsed while loop\n");
+        asprintf(&$$, "while (%s) {\n%s\n}", $2, $3);
     }
 ;
 
