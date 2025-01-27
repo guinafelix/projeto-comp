@@ -1,0 +1,24 @@
+var inteiro: temperatura, umidade;
+var texto: nomeDispositivo, localizacao;
+config
+temperatura = teste;
+umidade = 60;
+nomeDispositivo = "SensorExterno";
+localizacao = "Jardim";
+configurar temperatura como entrada;
+configurar umidade como entrada;
+configurar nomeDispositivo como saida;
+configurar localizacao como saida;
+conectarWifi nomeDispositivo localizacao;
+fim
+repita
+temperatura = lerAnalogico temperatura;
+umidade = lerAnalogico umidade;
+esperar 2000;
+se temperatura > 30 entao
+   ligar nomeDispositivo;
+senao
+   desligar nomeDispositivo;
+fim
+esperar 5000;
+fim

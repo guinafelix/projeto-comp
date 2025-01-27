@@ -1,0 +1,22 @@
+var inteiro: sensorLuz, sensorSom;
+var texto: redeWifi, senhaWifi;
+config
+sensorLuz = 0;
+sensorSom = 1;
+redeWifi = "HomeNetwork";
+senhaWifi = "SafePassword123";
+configurar sensorLuz como entrada;
+configurar sensorSom como entrada;
+conectarWifi redeWifi senhaWifi;
+fim
+repita
+sensorLuz = lerAnalogico sensorLuz;
+sensorSom = lerAnalogico sensorSom;
+esperar 1000;
+if (sensorLuz < 10) 
+   ligar sensorSom;
+else
+   desligar sensorSom;
+endif
+esperar 3000;
+fim

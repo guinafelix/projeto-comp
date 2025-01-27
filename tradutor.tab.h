@@ -1,0 +1,123 @@
+/* A Bison parser, made by GNU Bison 3.5.1.  */
+
+/* Bison interface for Yacc-like parsers in C
+
+   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2020 Free Software Foundation,
+   Inc.
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+
+/* As a special exception, you may create a larger work that contains
+   part or all of the Bison parser skeleton and distribute that work
+   under terms of your choice, so long as that work isn't itself a
+   parser generator using the skeleton or a modified version thereof
+   as a parser skeleton.  Alternatively, if you modify or redistribute
+   the parser skeleton itself, you may (at your option) remove this
+   special exception, which will cause the skeleton and the resulting
+   Bison output files to be licensed under the GNU General Public
+   License without this special exception.
+
+   This special exception was added by the Free Software Foundation in
+   version 2.2 of Bison.  */
+
+/* Undocumented macros, especially those whose name start with YY_,
+   are private implementation details.  Do not rely on them.  */
+
+#ifndef YY_YY_TRADUTOR_TAB_H_INCLUDED
+# define YY_YY_TRADUTOR_TAB_H_INCLUDED
+/* Debug traces.  */
+#ifndef YYDEBUG
+# define YYDEBUG 0
+#endif
+#if YYDEBUG
+extern int yydebug;
+#endif
+
+/* Token type.  */
+#ifndef YYTOKENTYPE
+# define YYTOKENTYPE
+  enum yytokentype
+  {
+    IGUALDADE = 258,
+    SOMA = 259,
+    SUBTRACAO = 260,
+    MULTIPLICACAO = 261,
+    DIVISAO = 262,
+    IGUAL = 263,
+    DIFERENTE = 264,
+    MENOR = 265,
+    MAIOR = 266,
+    MENOR_IGUAL = 267,
+    MAIOR_IGUAL = 268,
+    IDENTIFICADOR = 269,
+    NUM = 270,
+    STRING = 271,
+    VAR = 272,
+    CONFIGURAR = 273,
+    COMO = 274,
+    SAIDA = 275,
+    LIGAR = 276,
+    DESLIGAR = 277,
+    ESPERAR = 278,
+    INTEIRO = 279,
+    BOOLEANO = 280,
+    TEXTO = 281,
+    CONFIG = 282,
+    REPITA = 283,
+    FIM = 284,
+    ENTRADA = 285,
+    CONECTAR_WIFI = 286,
+    LER_DIGITAL = 287,
+    LER_ANALOGICO = 288,
+    CONFIGURAR_PWM = 289,
+    FREQUENCIA = 290,
+    RESOLUCAO = 291,
+    AJUSTAR_PWM = 292,
+    VALOR = 293,
+    COM = 294,
+    SE = 295,
+    SENAO = 296,
+    ENTAO = 297,
+    ENQUANTO = 298,
+    DOIS_PONTOS = 299,
+    PONTO_E_VIRGULA = 300,
+    VIRGULA = 301
+  };
+#endif
+
+/* Value type.  */
+#if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
+union YYSTYPE
+{
+#line 81 "src/tradutor.y"
+
+    char *texto;
+    int num;
+    int inteiro;
+    char *identificador;
+
+#line 111 "tradutor.tab.h"
+
+};
+typedef union YYSTYPE YYSTYPE;
+# define YYSTYPE_IS_TRIVIAL 1
+# define YYSTYPE_IS_DECLARED 1
+#endif
+
+
+extern YYSTYPE yylval;
+
+int yyparse (void);
+
+#endif /* !YY_YY_TRADUTOR_TAB_H_INCLUDED  */
