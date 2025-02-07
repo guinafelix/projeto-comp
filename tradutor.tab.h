@@ -90,9 +90,12 @@ extern int yydebug;
     SENAO = 296,
     ENTAO = 297,
     ENQUANTO = 298,
-    DOIS_PONTOS = 299,
-    PONTO_E_VIRGULA = 300,
-    VIRGULA = 301
+    ESCREVER_SERIAL = 299,
+    LER_SERIAL = 300,
+    DOIS_PONTOS = 301,
+    PONTO_E_VIRGULA = 302,
+    VIRGULA = 303,
+    CONFIGURAR_SERIAL = 304
   };
 #endif
 
@@ -107,7 +110,7 @@ union YYSTYPE
     int inteiro;
     char *identificador;
 
-#line 111 "tradutor.tab.h"
+#line 114 "tradutor.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

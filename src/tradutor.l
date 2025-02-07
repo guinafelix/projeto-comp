@@ -19,6 +19,9 @@
 "ligar"               { printf("Token LIGAR encontrado\n"); return LIGAR; }
 "desligar"            { printf("Token DESLIGAR encontrado\n"); return DESLIGAR; }
 "conectarWifi"        { printf("Token CONECTAR_WIFI encontrado\n"); return CONECTAR_WIFI; }
+"configurarSerial"    { printf("Token CONFIGURAR_SERIAL encontrado\n"); return CONFIGURAR_SERIAL; }
+"escreverSerial"      { printf("Token ESCREVER_SERIAL encontrado\n"); return ESCREVER_SERIAL; }
+"lerSerial"           { printf("Token LER_SERIAL encontrado\n"); return LER_SERIAL; }
 "esperar"             { printf("Token ESPERAR encontrado\n"); return ESPERAR; }
 "lerDigital"          { printf("Token LER_DIGITAL encontrado\n"); return LER_DIGITAL; }
 "lerAnalogico"        { printf("Token LER_ANALOGICO encontrado\n"); return LER_ANALOGICO; }

@@ -100,8 +100,8 @@ void verificarUsoVariavel(char *nome) {
 %token CONFIGURAR_PWM FREQUENCIA RESOLUCAO AJUSTAR_PWM VALOR
 %token COM IGUAL DIFERENTE MENOR MAIOR MENOR_IGUAL MAIOR_IGUAL
 %token SOMA SUBTRACAO MULTIPLICACAO DIVISAO
-%token SE SENAO ENTAO ENQUANTO
-%token DOIS_PONTOS PONTO_E_VIRGULA VIRGULA IGUALDADE
+%token SE SENAO ENTAO ENQUANTO ESCREVER_SERIAL LER_SERIAL
+%token DOIS_PONTOS PONTO_E_VIRGULA VIRGULA IGUALDADE CONFIGURAR_SERIAL
 
 /* Declare types for non-terminals */
 %type <texto> tipo_declaracao configuracao loop comandos comando expressao condicao lista_identificadores declaracoes declaracao
@@ -193,6 +193,10 @@ comando:
         verificarUsoVariavel($2);
         asprintf(&$$, "pinMode(%s, INPUT);", $2);
     }
+    | CONFIGURAR_SERIAL NUM PONTO_E_VIRGULA {
+      printf("Parsed serial configuration: baud rate %d\n", $2);
+      asprintf(&$$, "Serial.begin(%d);", $2);
+    }
     | LIGAR IDENTIFICADOR PONTO_E_VIRGULA {
         printf("Parsed ligar: %s\n", $2);
         verificarUsoVariavel($2);
@@ -252,6 +256,15 @@ comando:
     | ENQUANTO condicao comandos FIM {
         printf("Parsed while loop\n");
         asprintf(&$$, "while (%s) {\n%s\n}", $2, $3);
+    }
+    | ESCREVER_SERIAL STRING PONTO_E_VIRGULA {
+        printf("Comando de escrever na Serial encontrado: %s\n", $2);
+        asprintf(&$$, "Serial.println(%s);", $2);
+    }
+    | IDENTIFICADOR IGUALDADE LER_SERIAL PONTO_E_VIRGULA {
+        printf("Comando de lerSerial encontrado: %s\n", $1);
+        verificarUsoVariavel($1);
+        asprintf(&$$, "%s = Serial.readString();", $1); 
     }
 ;
 

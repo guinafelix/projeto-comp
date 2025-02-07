@@ -1,8 +1,10 @@
 var inteiro: temperatura, umidade;
 var texto: nomeDispositivo, localizacao;
 config
-temperatura = teste;
-umidade = 60;
+temperatura = 60;
+umidade = lerSerial;
+configurarSerial 115200;
+escreverSerial "Configuracao de serial realizada";
 nomeDispositivo = "SensorExterno";
 localizacao = "Jardim";
 configurar temperatura como entrada;
