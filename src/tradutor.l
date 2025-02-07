@@ -22,6 +22,7 @@
 "configurarSerial"    { printf("Token CONFIGURAR_SERIAL encontrado\n"); return CONFIGURAR_SERIAL; }
 "escreverSerial"      { printf("Token ESCREVER_SERIAL encontrado\n"); return ESCREVER_SERIAL; }
 "lerSerial"           { printf("Token LER_SERIAL encontrado\n"); return LER_SERIAL; }
+"enviarHttp"          { printf("Token ENVIAR_HTTP encontrado\n"); return ENVIAR_HTTP; }
 "esperar"             { printf("Token ESPERAR encontrado\n"); return ESPERAR; }
 "lerDigital"          { printf("Token LER_DIGITAL encontrado\n"); return LER_DIGITAL; }
 "lerAnalogico"        { printf("Token LER_ANALOGICO encontrado\n"); return LER_ANALOGICO; }

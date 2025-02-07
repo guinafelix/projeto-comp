@@ -92,10 +92,11 @@ extern int yydebug;
     ENQUANTO = 298,
     ESCREVER_SERIAL = 299,
     LER_SERIAL = 300,
-    DOIS_PONTOS = 301,
-    PONTO_E_VIRGULA = 302,
-    VIRGULA = 303,
-    CONFIGURAR_SERIAL = 304
+    ENVIAR_HTTP = 301,
+    DOIS_PONTOS = 302,
+    PONTO_E_VIRGULA = 303,
+    VIRGULA = 304,
+    CONFIGURAR_SERIAL = 305
   };
 #endif
 
@@ -110,7 +111,7 @@ union YYSTYPE
     int inteiro;
     char *identificador;
 
-#line 114 "tradutor.tab.h"
+#line 115 "tradutor.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

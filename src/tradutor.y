@@ -100,7 +100,7 @@ void verificarUsoVariavel(char *nome) {
 %token CONFIGURAR_PWM FREQUENCIA RESOLUCAO AJUSTAR_PWM VALOR
 %token COM IGUAL DIFERENTE MENOR MAIOR MENOR_IGUAL MAIOR_IGUAL
 %token SOMA SUBTRACAO MULTIPLICACAO DIVISAO
-%token SE SENAO ENTAO ENQUANTO ESCREVER_SERIAL LER_SERIAL
+%token SE SENAO ENTAO ENQUANTO ESCREVER_SERIAL LER_SERIAL ENVIAR_HTTP
 %token DOIS_PONTOS PONTO_E_VIRGULA VIRGULA IGUALDADE CONFIGURAR_SERIAL
 
 /* Declare types for non-terminals */
@@ -137,12 +137,26 @@ declaracoes:
 declaracao:
     VAR tipo_declaracao DOIS_PONTOS lista_identificadores PONTO_E_VIRGULA {
         printf("Parsed variable declaration: %s %s\n", $2, $4);
+
         char *identificador = strtok($4, ", ");
+        char *variaveisDeclaradas = malloc(strlen($4) + 1);
+        variaveisDeclaradas[0] = '\0';
+
         while (identificador != NULL) {
             adicionarVariavel(identificador, $2);
+            printf("Variável declarada: %s\n", identificador);
+            strcat(variaveisDeclaradas, identificador);
+            strcat(variaveisDeclaradas, ", ");
             identificador = strtok(NULL, ", ");
         }
-        asprintf(&$$, "%s %s;\n", $2, $4);
+
+        if (strlen(variaveisDeclaradas) > 0) {
+            variaveisDeclaradas[strlen(variaveisDeclaradas) - 2] = '\0';
+        }
+
+        asprintf(&$$, "%s %s;\n", $2, variaveisDeclaradas);
+
+        free(variaveisDeclaradas);
     }
 ;
 
@@ -265,6 +279,10 @@ comando:
         printf("Comando de lerSerial encontrado: %s\n", $1);
         verificarUsoVariavel($1);
         asprintf(&$$, "%s = Serial.readString();", $1); 
+    }
+    | ENVIAR_HTTP STRING STRING PONTO_E_VIRGULA {
+        printf("Comando enviarHttp encontrado: URL = %s, Dados = %s\n", $2, $3);
+        asprintf(&$$, "HttpClient http;\nhttp.begin(%s);\nhttp.addHeader(\"Content-Type\", \"application/x-www-form-urlencoded\");\nhttp.POST(%s);\nhttp.end();", $2, $3);
     }
 ;
 

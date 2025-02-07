@@ -1,17 +1,19 @@
-var inteiro: temperatura, umidade;
-var texto: nomeDispositivo, localizacao;
+var inteiro: temperatura, umidade, botao, estadoBotao;
+var texto: nomeDispositivo, senha;
 config
 temperatura = 60;
 umidade = lerSerial;
 configurarSerial 115200;
 escreverSerial "Configuracao de serial realizada";
 nomeDispositivo = "SensorExterno";
-localizacao = "Jardim";
+senha = "Jardim";
 configurar temperatura como entrada;
 configurar umidade como entrada;
+configurar botao como entrada;
+estadoBotao = lerDigital botao;
 configurar nomeDispositivo como saida;
-configurar localizacao como saida;
-conectarWifi nomeDispositivo localizacao;
+conectarWifi nomeDispositivo senha;
+enviarHttp "http://example.com" "dados=123";
 fim
 repita
 temperatura = lerAnalogico temperatura;
