@@ -1,21 +1,19 @@
 var inteiro: ledPin, brilho;
 var texto: ssid, senha;
 config
+configurarSerial 115200;
 ledPin = 2;
-ssid = "MinhaRedeWiFi";
+ssid = "MinhaRedeWiFi"; 
 senha = "MinhaSenhaWiFi";
 configurar ledPin como saida;
 configurarPWM ledPin com frequencia 5000 resolucao 8;
 conectarWifi ssid senha;
 fim
 repita
-brilho = 128;
+brilho = 128; 
 ajustarPWM ledPin com valor brilho;
 esperar 1000;
-brilho = 0;
-ajustarPWM ledPin com valor brilho;
-esperar 1000;
-se brilho > 128 entao
-ligar ledPin;
-fim
+brilho = 0; 
+ajustarPWM ledPin com valor brilho; 
+esperar 1000; 
 fim

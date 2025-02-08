@@ -1756,7 +1756,7 @@ yyreduce:
                                                                                     {
         printf("Parsed PWM configuration: %s with frequency %d and resolution %d\n", (yyvsp[-6].texto), (yyvsp[-3].num), (yyvsp[-1].num));
         verificarUsoVariavel((yyvsp[-6].texto));
-        asprintf(&(yyval.texto), "ledcSetup(%s, %d, %d);\nledcAttachPin(%s, 0);", (yyvsp[-6].texto), (yyvsp[-3].num), (yyvsp[-1].num), (yyvsp[-6].texto));
+        asprintf(&(yyval.texto), "ledcAttach(%s, %d, %d);", (yyvsp[-6].texto), (yyvsp[-3].num), (yyvsp[-1].num));
     }
 #line 1762 "tradutor.tab.c"
     break;
@@ -1767,7 +1767,7 @@ yyreduce:
         printf("Parsed PWM adjustment: %s with value %s\n", (yyvsp[-4].texto), (yyvsp[-1].texto));
         verificarUsoVariavel((yyvsp[-4].texto));
         verificarUsoVariavel((yyvsp[-1].texto));
-        asprintf(&(yyval.texto), "ledcWrite(0, %s);", (yyvsp[-1].texto));
+        asprintf(&(yyval.texto), "ledcWrite(%s, %s);", (yyvsp[-4].texto), (yyvsp[-1].texto));
     }
 #line 1773 "tradutor.tab.c"
     break;

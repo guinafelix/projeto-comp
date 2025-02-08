@@ -240,13 +240,13 @@ comando:
     | CONFIGURAR_PWM IDENTIFICADOR COM FREQUENCIA NUM RESOLUCAO NUM PONTO_E_VIRGULA {
         printf("Parsed PWM configuration: %s with frequency %d and resolution %d\n", $2, $5, $7);
         verificarUsoVariavel($2);
-        asprintf(&$$, "ledcSetup(%s, %d, %d);\nledcAttachPin(%s, 0);", $2, $5, $7, $2);
+        asprintf(&$$, "ledcAttach(%s, %d, %d);", $2, $5, $7);
     }
     | AJUSTAR_PWM IDENTIFICADOR COM VALOR IDENTIFICADOR PONTO_E_VIRGULA {
         printf("Parsed PWM adjustment: %s with value %s\n", $2, $5);
         verificarUsoVariavel($2);
         verificarUsoVariavel($5);
-        asprintf(&$$, "ledcWrite(0, %s);", $5);
+        asprintf(&$$, "ledcWrite(%s, %s);", $2, $5);
     }
     | AJUSTAR_PWM IDENTIFICADOR COM VALOR NUM PONTO_E_VIRGULA {
         printf("Parsed PWM adjustment: %s with value %d\n", $2, $5);
