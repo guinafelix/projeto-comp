@@ -275,6 +275,11 @@ comando:
         printf("Comando de escrever na Serial encontrado: %s\n", $2);
         asprintf(&$$, "Serial.println(%s);", $2);
     }
+    | ESCREVER_SERIAL IDENTIFICADOR PONTO_E_VIRGULA {
+      printf("Comando de escrever identificador na Serial encontrado: %s\n", $2);
+      verificarUsoVariavel($2);
+      asprintf(&$$, "Serial.println(%s);", $2);
+    }
     | IDENTIFICADOR IGUALDADE LER_SERIAL PONTO_E_VIRGULA {
         printf("Comando de lerSerial encontrado: %s\n", $1);
         verificarUsoVariavel($1);

@@ -1,22 +1,18 @@
-var inteiro: sensorLuz, sensorSom;
-var texto: redeWifi, senhaWifi;
+var inteiro: sensorTemp, buzzer, tempCelsius;
 config
-sensorLuz = 0;
-sensorSom = 1;
-redeWifi = "HomeNetwork";
-senhaWifi = "SafePassword123";
-configurar sensorLuz como entrada;
-configurar sensorSom como entrada;
-conectarWifi redeWifi senhaWifi;
+    configurarSerial 115200;
+    sensorTemp = 34;
+    buzzer = 5;
+    configurar sensorTemp como entrada;
+    configurar buzzer como saida;
 fim
 repita
-sensorLuz = lerAnalogico sensorLuz;
-sensorSom = lerAnalogico sensorSom;
-esperar 1000;
-if (sensorLuz < 10) 
-   ligar sensorSom;
-else
-   desligar sensorSom;
-endif
-esperar 3000;
+    tempCelsius = lerAnalogico sensorTemp; 
+    
+    se tempCelsius > 30 entao 
+        ligar buzzer;
+        esperar 3000;
+        desligar buzzer;
+    fim
+    esperar 3000;
 fim
