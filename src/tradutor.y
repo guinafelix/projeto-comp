@@ -22,6 +22,11 @@ int numVariaveis = 0;
 char* obterTipoVariavel(char *nome);
 
 void adicionarVariavel(char *nome, char *tipo) {
+    while(isspace(*nome)) nome++;
+    char *end = nome + strlen(nome) - 1;
+    while(end > nome && isspace(*end)) end--;
+    *(end + 1) = 0;
+
     if (obterTipoVariavel(nome) != NULL) {
         yyerror("Erro Semântico: Variável já declarada.");
         return;
@@ -42,6 +47,7 @@ void atualizarValorVariavel(char *nome, char *valor) {
 
 char* obterTipoVariavel(char *nome) {
     for (int i = 0; i < numVariaveis; i++) {
+        printf("Comparando: %s com %s\n", tabelaSimbolos[i].nome, nome);
         if (strcmp(tabelaSimbolos[i].nome, nome) == 0) {
             return tabelaSimbolos[i].tipo;
         }
@@ -99,7 +105,7 @@ void verificarUsoVariavel(char *nome) {
 %token LER_DIGITAL LER_ANALOGICO
 %token CONFIGURAR_PWM FREQUENCIA RESOLUCAO AJUSTAR_PWM VALOR
 %token COM IGUAL DIFERENTE MENOR MAIOR MENOR_IGUAL MAIOR_IGUAL
-%token SOMA SUBTRACAO MULTIPLICACAO DIVISAO
+%token SOMA SUBTRACAO MULTIPLICACAO DIVISAO ENTRADA_PULLDOWN
 %token SE SENAO ENTAO ENQUANTO ESCREVER_SERIAL LER_SERIAL ENVIAR_HTTP
 %token DOIS_PONTOS PONTO_E_VIRGULA VIRGULA IGUALDADE CONFIGURAR_SERIAL
 
@@ -138,27 +144,34 @@ declaracao:
     VAR tipo_declaracao DOIS_PONTOS lista_identificadores PONTO_E_VIRGULA {
         printf("Parsed variable declaration: %s %s\n", $2, $4);
 
-        char *identificador = strtok($4, ", ");
-        char *variaveisDeclaradas = malloc(strlen($4) + 1);
+        char *copiaLista = strdup($4);
+        char *identificador = strtok(copiaLista, ",");
+        char *variaveisDeclaradas = malloc(strlen($4) * 2);  // Dobro do tamanho para segurança
         variaveisDeclaradas[0] = '\0';
 
         while (identificador != NULL) {
+            // Remove espaços no início e fim
+            while(isspace(*identificador)) identificador++;
+            char *end = identificador + strlen(identificador) - 1;
+            while(end > identificador && isspace(*end)) end--;
+            *(end + 1) = 0;
+
             adicionarVariavel(identificador, $2);
             printf("Variável declarada: %s\n", identificador);
+            
+            if (strlen(variaveisDeclaradas) > 0) {
+                strcat(variaveisDeclaradas, ", ");
+            }
             strcat(variaveisDeclaradas, identificador);
-            strcat(variaveisDeclaradas, ", ");
-            identificador = strtok(NULL, ", ");
-        }
-
-        if (strlen(variaveisDeclaradas) > 0) {
-            variaveisDeclaradas[strlen(variaveisDeclaradas) - 2] = '\0';
+            
+            identificador = strtok(NULL, ",");
         }
 
         asprintf(&$$, "%s %s;\n", $2, variaveisDeclaradas);
 
+        free(copiaLista);
         free(variaveisDeclaradas);
     }
-;
 
 configuracao:
     CONFIG comandos FIM {
@@ -206,6 +219,11 @@ comando:
         printf("Parsed pin configuration: %s as input\n", $2);
         verificarUsoVariavel($2);
         asprintf(&$$, "pinMode(%s, INPUT);", $2);
+    }
+    | CONFIGURAR IDENTIFICADOR COMO ENTRADA_PULLDOWN PONTO_E_VIRGULA {
+        printf("Parsed pin configuration: %s as input_pulldown\n", $2);
+        verificarUsoVariavel($2);
+        asprintf(&$$, "pinMode(%s, INPUT_PULLDOWN);", $2);
     }
     | CONFIGURAR_SERIAL NUM PONTO_E_VIRGULA {
       printf("Parsed serial configuration: baud rate %d\n", $2);

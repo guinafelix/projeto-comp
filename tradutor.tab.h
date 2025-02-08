@@ -86,17 +86,18 @@ extern int yydebug;
     AJUSTAR_PWM = 292,
     VALOR = 293,
     COM = 294,
-    SE = 295,
-    SENAO = 296,
-    ENTAO = 297,
-    ENQUANTO = 298,
-    ESCREVER_SERIAL = 299,
-    LER_SERIAL = 300,
-    ENVIAR_HTTP = 301,
-    DOIS_PONTOS = 302,
-    PONTO_E_VIRGULA = 303,
-    VIRGULA = 304,
-    CONFIGURAR_SERIAL = 305
+    ENTRADA_PULLDOWN = 295,
+    SE = 296,
+    SENAO = 297,
+    ENTAO = 298,
+    ENQUANTO = 299,
+    ESCREVER_SERIAL = 300,
+    LER_SERIAL = 301,
+    ENVIAR_HTTP = 302,
+    DOIS_PONTOS = 303,
+    PONTO_E_VIRGULA = 304,
+    VIRGULA = 305,
+    CONFIGURAR_SERIAL = 306
   };
 #endif
 
@@ -104,14 +105,14 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 81 "src/tradutor.y"
+#line 87 "src/tradutor.y"
 
     char *texto;
     int num;
     int inteiro;
     char *identificador;
 
-#line 115 "tradutor.tab.h"
+#line 116 "tradutor.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

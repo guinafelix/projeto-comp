@@ -1,0 +1,33 @@
+var inteiro: botao, estadoBotao, estadoAnteriorBotao, contador, led;
+
+config
+  botao = 21; 
+  led = 5;
+  estadoAnteriorBotao = 0;
+  contador = 0;  
+  configurar botao como entradaPullDown;
+  configurar led como saida;
+  configurarSerial 115200;
+  escreverSerial "Olá! ";
+fim
+
+repita
+  estadoBotao = lerDigital botao; 
+  se estadoBotao == 1 entao
+  se estadoAnteriorBotao == 0 entao
+    contador = contador + 1;  
+    escreverSerial "Contador: ";
+    escreverSerial contador;
+  fim
+  fim
+
+  se contador % 2 == 0 entao
+    ligar led;
+  senao
+    desligar led;
+  fim
+
+  estadoAnteriorBotao = estadoBotao;
+  esperar 200; 
+
+fim

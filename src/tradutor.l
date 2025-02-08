@@ -33,6 +33,7 @@
 "valor"               { printf("Token VALOR encontrado\n"); return VALOR; }
 "com"                 { printf("Token COM encontrado\n"); return COM; }
 "se"                  { printf("Token SE encontrado\n"); return SE; }
+"entradaPullDown"     { printf("Token ENTRADA_PULLDOWN encontrado\n"); return ENTRADA_PULLDOWN; }
 "senao"               { printf("Token SENAO encontrado\n"); return SENAO; }
 "entao"               { printf("Token ENTAO encontrado\n"); return ENTAO; }
 "enquanto"            { printf("Token ENQUANTO encontrado\n"); return ENQUANTO; }

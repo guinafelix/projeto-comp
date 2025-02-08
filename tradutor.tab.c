@@ -91,6 +91,11 @@ int numVariaveis = 0;
 char* obterTipoVariavel(char *nome);
 
 void adicionarVariavel(char *nome, char *tipo) {
+    while(isspace(*nome)) nome++;
+    char *end = nome + strlen(nome) - 1;
+    while(end > nome && isspace(*end)) end--;
+    *(end + 1) = 0;
+
     if (obterTipoVariavel(nome) != NULL) {
         yyerror("Erro Semântico: Variável já declarada.");
         return;
@@ -111,6 +116,7 @@ void atualizarValorVariavel(char *nome, char *valor) {
 
 char* obterTipoVariavel(char *nome) {
     for (int i = 0; i < numVariaveis; i++) {
+        printf("Comparando: %s com %s\n", tabelaSimbolos[i].nome, nome);
         if (strcmp(tabelaSimbolos[i].nome, nome) == 0) {
             return tabelaSimbolos[i].tipo;
         }
@@ -145,7 +151,7 @@ void verificarUsoVariavel(char *nome) {
     }
 }
 
-#line 149 "tradutor.tab.c"
+#line 155 "tradutor.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -230,17 +236,18 @@ extern int yydebug;
     AJUSTAR_PWM = 292,
     VALOR = 293,
     COM = 294,
-    SE = 295,
-    SENAO = 296,
-    ENTAO = 297,
-    ENQUANTO = 298,
-    ESCREVER_SERIAL = 299,
-    LER_SERIAL = 300,
-    ENVIAR_HTTP = 301,
-    DOIS_PONTOS = 302,
-    PONTO_E_VIRGULA = 303,
-    VIRGULA = 304,
-    CONFIGURAR_SERIAL = 305
+    ENTRADA_PULLDOWN = 295,
+    SE = 296,
+    SENAO = 297,
+    ENTAO = 298,
+    ENQUANTO = 299,
+    ESCREVER_SERIAL = 300,
+    LER_SERIAL = 301,
+    ENVIAR_HTTP = 302,
+    DOIS_PONTOS = 303,
+    PONTO_E_VIRGULA = 304,
+    VIRGULA = 305,
+    CONFIGURAR_SERIAL = 306
   };
 #endif
 
@@ -248,14 +255,14 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 81 "src/tradutor.y"
+#line 87 "src/tradutor.y"
 
     char *texto;
     int num;
     int inteiro;
     char *identificador;
 
-#line 259 "tradutor.tab.c"
+#line 266 "tradutor.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -574,19 +581,19 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  9
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   372
+#define YYLAST   346
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  53
+#define YYNTOKENS  54
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  12
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  54
+#define YYNRULES  55
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  138
+#define YYNSTATES  140
 
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   305
+#define YYMAXUTOK   306
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -602,7 +609,7 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-      51,    52,     2,     2,     2,     2,     2,     2,     2,     2,
+      52,    53,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -628,19 +635,19 @@ static const yytype_int8 yytranslate[] =
       15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
       25,    26,    27,    28,    29,    30,    31,    32,    33,    34,
       35,    36,    37,    38,    39,    40,    41,    42,    43,    44,
-      45,    46,    47,    48,    49,    50
+      45,    46,    47,    48,    49,    50,    51
 };
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,   113,   113,   127,   131,   138,   164,   171,   178,   182,
-     188,   200,   205,   210,   214,   219,   224,   228,   234,   240,
-     245,   251,   256,   260,   266,   270,   274,   278,   283,   288,
-     295,   299,   306,   310,   315,   318,   321,   324,   327,   330,
-     333,   336,   339,   342,   345,   348,   354,   357,   360,   363,
-     366,   369,   375,   378,   381
+       0,   119,   119,   133,   137,   144,   177,   184,   191,   195,
+     201,   213,   218,   223,   228,   232,   237,   242,   246,   252,
+     258,   263,   269,   274,   278,   284,   288,   292,   296,   301,
+     306,   313,   317,   324,   328,   333,   336,   339,   342,   345,
+     348,   351,   354,   357,   360,   363,   366,   372,   375,   378,
+     381,   384,   387,   393,   396,   399
 };
 #endif
 
@@ -655,12 +662,13 @@ static const char *const yytname[] =
   "CONFIGURAR", "COMO", "SAIDA", "LIGAR", "DESLIGAR", "ESPERAR", "INTEIRO",
   "BOOLEANO", "TEXTO", "CONFIG", "REPITA", "FIM", "ENTRADA",
   "CONECTAR_WIFI", "LER_DIGITAL", "LER_ANALOGICO", "CONFIGURAR_PWM",
-  "FREQUENCIA", "RESOLUCAO", "AJUSTAR_PWM", "VALOR", "COM", "SE", "SENAO",
-  "ENTAO", "ENQUANTO", "ESCREVER_SERIAL", "LER_SERIAL", "ENVIAR_HTTP",
-  "DOIS_PONTOS", "PONTO_E_VIRGULA", "VIRGULA", "CONFIGURAR_SERIAL", "'('",
-  "')'", "$accept", "programa", "declaracoes", "declaracao",
-  "configuracao", "loop", "comandos", "comando", "lista_identificadores",
-  "expressao", "condicao", "tipo_declaracao", YY_NULLPTR
+  "FREQUENCIA", "RESOLUCAO", "AJUSTAR_PWM", "VALOR", "COM",
+  "ENTRADA_PULLDOWN", "SE", "SENAO", "ENTAO", "ENQUANTO",
+  "ESCREVER_SERIAL", "LER_SERIAL", "ENVIAR_HTTP", "DOIS_PONTOS",
+  "PONTO_E_VIRGULA", "VIRGULA", "CONFIGURAR_SERIAL", "'('", "')'",
+  "$accept", "programa", "declaracoes", "declaracao", "configuracao",
+  "loop", "comandos", "comando", "lista_identificadores", "expressao",
+  "condicao", "tipo_declaracao", YY_NULLPTR
 };
 #endif
 
@@ -674,16 +682,16 @@ static const yytype_int16 yytoknum[] =
      275,   276,   277,   278,   279,   280,   281,   282,   283,   284,
      285,   286,   287,   288,   289,   290,   291,   292,   293,   294,
      295,   296,   297,   298,   299,   300,   301,   302,   303,   304,
-     305,    40,    41
+     305,   306,    40,    41
 };
 # endif
 
-#define YYPACT_NINF (-36)
+#define YYPACT_NINF (-32)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
 
-#define YYTABLE_NINF (-45)
+#define YYTABLE_NINF (-46)
 
 #define yytable_value_is_error(Yyn) \
   0
@@ -692,20 +700,20 @@ static const yytype_int16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int16 yypact[] =
 {
-     -14,   -19,    10,   -13,   -36,   -36,   -36,   -36,   -35,   -36,
-     252,   -36,    -2,    36,    53,    43,    44,    66,    60,    67,
-      68,    69,     1,     1,    -5,    82,    70,   128,   -36,   252,
-     -36,   -36,     0,    63,    65,    49,    51,    52,    87,    64,
-      71,   -36,   -36,   -36,     1,   299,    62,   252,    57,    58,
-      96,    73,   -36,   -36,   159,   -36,    99,   102,   103,    74,
-      61,   -12,   -36,   -36,   -36,    75,    89,    91,    24,     1,
-       1,     1,     1,     1,     1,     1,     1,     1,     1,   252,
-     190,   -36,   -36,    77,   -36,   -36,   -36,    79,    84,   -36,
-       1,     1,     1,     1,     1,     1,   -36,    85,    88,   -36,
-     115,    40,   -36,    81,    81,    12,    12,   309,   319,   329,
-     339,   349,   359,    97,   -36,   -36,   -36,   -36,   -36,   -36,
-     -36,   -36,   -36,   -36,   -36,   -36,   108,   100,   104,   -36,
-     252,   120,   -36,   -36,   221,   105,   -36,   -36
+      -2,    -4,    26,    -3,   -32,   -32,   -32,   -32,    17,   -32,
+     217,   -32,    42,    57,    71,    64,    67,    68,    69,    76,
+      78,    79,     2,     2,     9,    81,    85,    89,   -32,   217,
+     -32,   -32,     6,    34,    75,    53,    59,    65,    92,    74,
+      77,   -32,   -32,   -32,     2,   265,    72,   217,    70,    73,
+     101,    80,   -32,   -32,   121,   -32,   107,   110,   111,    82,
+      24,    49,   -32,   -32,   -32,    83,    93,    99,    -1,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,   217,
+     153,   -32,   -32,    96,   -32,   -32,   -32,    97,    98,   -32,
+       2,     2,     2,     2,     2,     2,   -32,   100,   102,   104,
+     -32,   112,    43,   -32,   333,   333,   233,   233,   275,   285,
+     295,   305,   315,   325,    54,   -32,   -32,   -32,   -32,   -32,
+     -32,   -32,   -32,   -32,   -32,   -32,   -32,   -32,   105,   108,
+     114,   -32,   217,   123,   -32,   -32,   185,   115,   -32,   -32
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -713,27 +721,27 @@ static const yytype_int16 yypact[] =
      means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       0,     0,     0,     0,     3,    52,    53,    54,     0,     1,
+       0,     0,     0,     0,     3,    53,    54,    55,     0,     1,
        0,     4,     0,     0,     0,     0,     0,     0,     0,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     8,     0,
-       2,    30,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,    32,    33,    34,     0,     0,     0,     0,     0,     0,
+       2,    31,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,    33,    34,    35,     0,     0,     0,     0,     0,     0,
        0,     0,     6,     9,     0,     5,     0,     0,     0,     0,
-       0,     0,    14,    15,    16,     0,     0,     0,     0,     0,
+       0,     0,    15,    16,    17,     0,     0,     0,     0,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,    27,    26,     0,    13,     7,    31,     0,     0,    28,
-       0,     0,     0,     0,     0,     0,    10,     0,     0,    23,
-       0,     0,    45,    35,    36,    37,    38,    46,    47,    48,
-      49,    50,    51,     0,    25,    29,    17,    18,    39,    40,
-      41,    42,    43,    44,    11,    12,     0,     0,     0,    24,
-       0,     0,    20,    21,     0,     0,    22,    19
+       0,    28,    27,     0,    14,     7,    32,     0,     0,    29,
+       0,     0,     0,     0,     0,     0,    10,     0,     0,     0,
+      24,     0,     0,    46,    36,    37,    38,    39,    47,    48,
+      49,    50,    51,    52,     0,    26,    30,    18,    19,    40,
+      41,    42,    43,    44,    45,    11,    12,    13,     0,     0,
+       0,    25,     0,     0,    21,    22,     0,     0,    23,    20
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int16 yypgoto[] =
 {
-     -36,   -36,   -36,   136,   -36,   -36,   -28,   -27,   -36,   -31,
-     122,   -36
+     -32,   -32,   -32,   145,   -32,   -32,   -28,   -27,   -32,   -31,
+     131,   -32
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
@@ -748,128 +756,122 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int16 yytable[] =
 {
-      53,    54,    60,     1,     1,     5,     6,     7,    97,    48,
-       9,    49,    13,    68,    10,    41,    42,    43,    98,    80,
-      90,    91,    92,    93,    94,    95,    29,    53,    69,    70,
-      71,    72,    90,    91,    92,    93,    94,    95,   103,   104,
-     105,   106,   107,   108,   109,   110,   111,   112,    55,    56,
-      31,   113,    44,    53,   127,   128,    33,    34,    35,   118,
-     119,   120,   121,   122,   123,    69,    70,    71,    72,    90,
-      91,    92,    93,    94,    95,    37,   102,    41,    42,    43,
-      36,    38,    39,    40,    61,    51,    53,    71,    72,    90,
-      91,    92,    93,    94,    95,    57,    58,    62,    50,    63,
-      64,    65,   134,    66,    79,    81,    82,    53,    59,    96,
-      67,    14,    83,    86,    44,    15,    87,    88,    16,    17,
-      18,    84,    89,    99,   100,   115,   129,   116,    19,   101,
-     126,    20,   117,   124,    21,   135,   125,    22,   130,    11,
-      23,    24,    14,    25,   131,    47,    15,    26,   132,    16,
-      17,    18,   133,   137,     0,     0,     0,    52,     0,    19,
-       0,     0,    20,     0,     0,    21,     0,     0,    22,     0,
-       0,    23,    24,    14,    25,     0,     0,    15,    26,     0,
-      16,    17,    18,     0,     0,     0,     0,     0,    85,     0,
-      19,     0,     0,    20,     0,     0,    21,     0,     0,    22,
-       0,     0,    23,    24,    14,    25,     0,     0,    15,    26,
-       0,    16,    17,    18,     0,     0,     0,     0,     0,   114,
-       0,    19,     0,     0,    20,     0,     0,    21,     0,     0,
-      22,     0,     0,    23,    24,    14,    25,     0,     0,    15,
-      26,     0,    16,    17,    18,     0,     0,     0,     0,     0,
-     136,     0,    19,     0,     0,    20,     0,     0,    21,     0,
-       0,    22,     0,     0,    23,    24,    14,    25,     0,     0,
-      15,    26,     0,    16,    17,    18,     0,     0,     0,     0,
-       0,     0,     0,    19,     0,     0,    20,     0,     0,    21,
-       0,     0,    22,     0,     0,    23,    24,     0,    25,     0,
-       0,     0,    26,    69,    70,    71,    72,    73,    74,    75,
-      76,    77,    78,   -39,   -39,   -39,   -39,   -39,   -39,   -39,
-     -39,   -39,   -39,   -40,   -40,   -40,   -40,   -40,   -40,   -40,
-     -40,   -40,   -40,   -41,   -41,   -41,   -41,   -41,   -41,   -41,
-     -41,   -41,   -41,   -42,   -42,   -42,   -42,   -42,   -42,   -42,
-     -42,   -42,   -42,   -43,   -43,   -43,   -43,   -43,   -43,   -43,
-     -43,   -43,   -43,   -44,   -44,   -44,   -44,   -44,   -44,   -44,
-     -44,   -44,   -44
+      53,    54,    60,    69,    70,    71,    72,    90,    91,    92,
+      93,    94,    95,    68,     1,     1,    41,    42,    43,    80,
+       5,     6,     7,    48,    10,    49,     9,    53,    69,    70,
+      71,    72,    90,    91,    92,    93,    94,    95,   104,   105,
+     106,   107,   108,   109,   110,   111,   112,   113,    41,    42,
+      43,   114,   103,    53,    44,    55,    56,   129,   130,   119,
+     120,   121,   122,   123,   124,    13,    57,    58,    14,    97,
+      29,    31,    15,    96,    33,    16,    17,    18,    34,    98,
+      59,    35,    36,   131,    37,    19,    44,    53,    20,    99,
+      38,    21,    39,    40,    61,    22,   132,    50,    23,    24,
+      51,    25,    62,    14,   136,    26,    65,    15,    63,    53,
+      16,    17,    18,    66,    64,    79,    67,    83,    52,    81,
+      19,    86,    82,    20,    87,    88,    21,   128,   101,    84,
+      22,    89,   100,    23,    24,    14,    25,   102,   137,    15,
+      26,   133,    16,    17,    18,   116,   117,   118,    11,   125,
+      85,   126,    19,   127,    47,    20,     0,   134,    21,     0,
+       0,     0,    22,   135,   139,    23,    24,    14,    25,     0,
+       0,    15,    26,     0,    16,    17,    18,     0,     0,     0,
+       0,     0,   115,     0,    19,     0,     0,    20,     0,     0,
+      21,     0,     0,     0,    22,     0,     0,    23,    24,    14,
+      25,     0,     0,    15,    26,     0,    16,    17,    18,     0,
+       0,     0,     0,     0,   138,     0,    19,     0,     0,    20,
+       0,     0,    21,     0,     0,     0,    22,     0,     0,    23,
+      24,    14,    25,     0,     0,    15,    26,     0,    16,    17,
+      18,    90,    91,    92,    93,    94,    95,     0,    19,     0,
+       0,    20,     0,     0,    21,     0,     0,     0,    22,     0,
+       0,    23,    24,     0,    25,     0,     0,     0,    26,    69,
+      70,    71,    72,    73,    74,    75,    76,    77,    78,   -40,
+     -40,   -40,   -40,   -40,   -40,   -40,   -40,   -40,   -40,   -41,
+     -41,   -41,   -41,   -41,   -41,   -41,   -41,   -41,   -41,   -42,
+     -42,   -42,   -42,   -42,   -42,   -42,   -42,   -42,   -42,   -43,
+     -43,   -43,   -43,   -43,   -43,   -43,   -43,   -43,   -43,   -44,
+     -44,   -44,   -44,   -44,   -44,   -44,   -44,   -44,   -44,   -45,
+     -45,   -45,   -45,   -45,   -45,   -45,   -45,   -45,   -45,    71,
+      72,    90,    91,    92,    93,    94,    95
 };
 
 static const yytype_int16 yycheck[] =
 {
-      27,    29,    33,    17,    17,    24,    25,    26,    20,    14,
-       0,    16,    47,    44,    27,    14,    15,    16,    30,    47,
-       8,     9,    10,    11,    12,    13,    28,    54,     4,     5,
+      27,    29,    33,     4,     5,     6,     7,     8,     9,    10,
+      11,    12,    13,    44,    17,    17,    14,    15,    16,    47,
+      24,    25,    26,    14,    27,    16,     0,    54,     4,     5,
        6,     7,     8,     9,    10,    11,    12,    13,    69,    70,
-      71,    72,    73,    74,    75,    76,    77,    78,    48,    49,
-      14,    79,    51,    80,    14,    15,     3,    14,    14,    90,
-      91,    92,    93,    94,    95,     4,     5,     6,     7,     8,
-       9,    10,    11,    12,    13,    15,    52,    14,    15,    16,
-      14,    14,    14,    14,    19,    15,   113,     6,     7,     8,
-       9,    10,    11,    12,    13,    32,    33,    48,    16,    48,
-      48,    14,   130,    39,    42,    48,    48,   134,    45,    48,
-      39,    14,    16,    14,    51,    18,    14,    14,    21,    22,
-      23,    48,    48,    48,    35,    48,    29,    48,    31,    38,
-      15,    34,    48,    48,    37,    15,    48,    40,    41,     3,
-      43,    44,    14,    46,    36,    23,    18,    50,    48,    21,
-      22,    23,    48,    48,    -1,    -1,    -1,    29,    -1,    31,
-      -1,    -1,    34,    -1,    -1,    37,    -1,    -1,    40,    -1,
-      -1,    43,    44,    14,    46,    -1,    -1,    18,    50,    -1,
-      21,    22,    23,    -1,    -1,    -1,    -1,    -1,    29,    -1,
-      31,    -1,    -1,    34,    -1,    -1,    37,    -1,    -1,    40,
-      -1,    -1,    43,    44,    14,    46,    -1,    -1,    18,    50,
-      -1,    21,    22,    23,    -1,    -1,    -1,    -1,    -1,    29,
-      -1,    31,    -1,    -1,    34,    -1,    -1,    37,    -1,    -1,
-      40,    -1,    -1,    43,    44,    14,    46,    -1,    -1,    18,
-      50,    -1,    21,    22,    23,    -1,    -1,    -1,    -1,    -1,
-      29,    -1,    31,    -1,    -1,    34,    -1,    -1,    37,    -1,
-      -1,    40,    -1,    -1,    43,    44,    14,    46,    -1,    -1,
-      18,    50,    -1,    21,    22,    23,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    31,    -1,    -1,    34,    -1,    -1,    37,
-      -1,    -1,    40,    -1,    -1,    43,    44,    -1,    46,    -1,
-      -1,    -1,    50,     4,     5,     6,     7,     8,     9,    10,
-      11,    12,    13,     4,     5,     6,     7,     8,     9,    10,
-      11,    12,    13,     4,     5,     6,     7,     8,     9,    10,
-      11,    12,    13,     4,     5,     6,     7,     8,     9,    10,
-      11,    12,    13,     4,     5,     6,     7,     8,     9,    10,
-      11,    12,    13,     4,     5,     6,     7,     8,     9,    10,
-      11,    12,    13,     4,     5,     6,     7,     8,     9,    10,
-      11,    12,    13
+      71,    72,    73,    74,    75,    76,    77,    78,    14,    15,
+      16,    79,    53,    80,    52,    49,    50,    14,    15,    90,
+      91,    92,    93,    94,    95,    48,    32,    33,    14,    20,
+      28,    14,    18,    49,     3,    21,    22,    23,    14,    30,
+      46,    14,    14,    29,    15,    31,    52,   114,    34,    40,
+      14,    37,    14,    14,    19,    41,    42,    16,    44,    45,
+      15,    47,    49,    14,   132,    51,    14,    18,    49,   136,
+      21,    22,    23,    39,    49,    43,    39,    16,    29,    49,
+      31,    14,    49,    34,    14,    14,    37,    15,    35,    49,
+      41,    49,    49,    44,    45,    14,    47,    38,    15,    18,
+      51,    36,    21,    22,    23,    49,    49,    49,     3,    49,
+      29,    49,    31,    49,    23,    34,    -1,    49,    37,    -1,
+      -1,    -1,    41,    49,    49,    44,    45,    14,    47,    -1,
+      -1,    18,    51,    -1,    21,    22,    23,    -1,    -1,    -1,
+      -1,    -1,    29,    -1,    31,    -1,    -1,    34,    -1,    -1,
+      37,    -1,    -1,    -1,    41,    -1,    -1,    44,    45,    14,
+      47,    -1,    -1,    18,    51,    -1,    21,    22,    23,    -1,
+      -1,    -1,    -1,    -1,    29,    -1,    31,    -1,    -1,    34,
+      -1,    -1,    37,    -1,    -1,    -1,    41,    -1,    -1,    44,
+      45,    14,    47,    -1,    -1,    18,    51,    -1,    21,    22,
+      23,     8,     9,    10,    11,    12,    13,    -1,    31,    -1,
+      -1,    34,    -1,    -1,    37,    -1,    -1,    -1,    41,    -1,
+      -1,    44,    45,    -1,    47,    -1,    -1,    -1,    51,     4,
+       5,     6,     7,     8,     9,    10,    11,    12,    13,     4,
+       5,     6,     7,     8,     9,    10,    11,    12,    13,     4,
+       5,     6,     7,     8,     9,    10,    11,    12,    13,     4,
+       5,     6,     7,     8,     9,    10,    11,    12,    13,     4,
+       5,     6,     7,     8,     9,    10,    11,    12,    13,     4,
+       5,     6,     7,     8,     9,    10,    11,    12,    13,     4,
+       5,     6,     7,     8,     9,    10,    11,    12,    13,     6,
+       7,     8,     9,    10,    11,    12,    13
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,    17,    54,    55,    56,    24,    25,    26,    64,     0,
-      27,    56,    57,    47,    14,    18,    21,    22,    23,    31,
-      34,    37,    40,    43,    44,    46,    50,    59,    60,    28,
-      58,    14,    61,     3,    14,    14,    14,    15,    14,    14,
-      14,    14,    15,    16,    51,    62,    63,    63,    14,    16,
-      16,    15,    29,    60,    59,    48,    49,    32,    33,    45,
-      62,    19,    48,    48,    48,    14,    39,    39,    62,     4,
-       5,     6,     7,     8,     9,    10,    11,    12,    13,    42,
-      59,    48,    48,    16,    48,    29,    14,    14,    14,    48,
-       8,     9,    10,    11,    12,    13,    48,    20,    30,    48,
-      35,    38,    52,    62,    62,    62,    62,    62,    62,    62,
-      62,    62,    62,    59,    29,    48,    48,    48,    62,    62,
-      62,    62,    62,    62,    48,    48,    15,    14,    15,    29,
-      41,    36,    48,    48,    59,    15,    29,    48
+       0,    17,    55,    56,    57,    24,    25,    26,    65,     0,
+      27,    57,    58,    48,    14,    18,    21,    22,    23,    31,
+      34,    37,    41,    44,    45,    47,    51,    60,    61,    28,
+      59,    14,    62,     3,    14,    14,    14,    15,    14,    14,
+      14,    14,    15,    16,    52,    63,    64,    64,    14,    16,
+      16,    15,    29,    61,    60,    49,    50,    32,    33,    46,
+      63,    19,    49,    49,    49,    14,    39,    39,    63,     4,
+       5,     6,     7,     8,     9,    10,    11,    12,    13,    43,
+      60,    49,    49,    16,    49,    29,    14,    14,    14,    49,
+       8,     9,    10,    11,    12,    13,    49,    20,    30,    40,
+      49,    35,    38,    53,    63,    63,    63,    63,    63,    63,
+      63,    63,    63,    63,    60,    29,    49,    49,    49,    63,
+      63,    63,    63,    63,    63,    49,    49,    49,    15,    14,
+      15,    29,    42,    36,    49,    49,    60,    15,    29,    49
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    53,    54,    55,    55,    56,    57,    58,    59,    59,
-      60,    60,    60,    60,    60,    60,    60,    60,    60,    60,
-      60,    60,    60,    60,    60,    60,    60,    60,    60,    60,
-      61,    61,    62,    62,    62,    62,    62,    62,    62,    62,
-      62,    62,    62,    62,    62,    62,    63,    63,    63,    63,
-      63,    63,    64,    64,    64
+       0,    54,    55,    56,    56,    57,    58,    59,    60,    60,
+      61,    61,    61,    61,    61,    61,    61,    61,    61,    61,
+      61,    61,    61,    61,    61,    61,    61,    61,    61,    61,
+      61,    62,    62,    63,    63,    63,    63,    63,    63,    63,
+      63,    63,    63,    63,    63,    63,    63,    64,    64,    64,
+      64,    64,    64,    65,    65,    65
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_int8 yyr2[] =
 {
        0,     2,     3,     1,     2,     5,     3,     3,     1,     2,
-       4,     5,     5,     3,     3,     3,     3,     5,     5,     8,
-       6,     6,     7,     4,     5,     4,     3,     3,     4,     4,
-       1,     3,     1,     1,     1,     3,     3,     3,     3,     3,
+       4,     5,     5,     5,     3,     3,     3,     3,     5,     5,
+       8,     6,     6,     7,     4,     5,     4,     3,     3,     4,
+       4,     1,     3,     1,     1,     1,     3,     3,     3,     3,
        3,     3,     3,     3,     3,     3,     3,     3,     3,     3,
-       3,     3,     1,     1,     1
+       3,     3,     3,     1,     1,     1
 };
 
 
@@ -1565,7 +1567,7 @@ yyreduce:
   switch (yyn)
     {
   case 2:
-#line 113 "src/tradutor.y"
+#line 119 "src/tradutor.y"
                                   {
         printf("Parsed program\n");
         geraCodigo("#include <Arduino.h>\n#include <WiFi.h>\n");
@@ -1577,93 +1579,101 @@ yyreduce:
         geraCodigo((yyvsp[0].texto));
         geraCodigo("}");
     }
-#line 1581 "tradutor.tab.c"
+#line 1583 "tradutor.tab.c"
     break;
 
   case 3:
-#line 127 "src/tradutor.y"
+#line 133 "src/tradutor.y"
                {
         printf("Parsed single declaracao\n");
         (yyval.texto) = (yyvsp[0].texto);
     }
-#line 1590 "tradutor.tab.c"
+#line 1592 "tradutor.tab.c"
     break;
 
   case 4:
-#line 131 "src/tradutor.y"
+#line 137 "src/tradutor.y"
                              {
         printf("Parsed multiple declaracoes\n");
         asprintf(&(yyval.texto), "%s\n%s", (yyvsp[-1].texto), (yyvsp[0].texto));
     }
-#line 1599 "tradutor.tab.c"
+#line 1601 "tradutor.tab.c"
     break;
 
   case 5:
-#line 138 "src/tradutor.y"
+#line 144 "src/tradutor.y"
                                                                           {
         printf("Parsed variable declaration: %s %s\n", (yyvsp[-3].texto), (yyvsp[-1].texto));
 
-        char *identificador = strtok((yyvsp[-1].texto), ", ");
-        char *variaveisDeclaradas = malloc(strlen((yyvsp[-1].texto)) + 1);
+        char *copiaLista = strdup((yyvsp[-1].texto));
+        char *identificador = strtok(copiaLista, ",");
+        char *variaveisDeclaradas = malloc(strlen((yyvsp[-1].texto)) * 2);  // Dobro do tamanho para segurança
         variaveisDeclaradas[0] = '\0';
 
         while (identificador != NULL) {
+            // Remove espaços no início e fim
+            while(isspace(*identificador)) identificador++;
+            char *end = identificador + strlen(identificador) - 1;
+            while(end > identificador && isspace(*end)) end--;
+            *(end + 1) = 0;
+
             adicionarVariavel(identificador, (yyvsp[-3].texto));
             printf("Variável declarada: %s\n", identificador);
+            
+            if (strlen(variaveisDeclaradas) > 0) {
+                strcat(variaveisDeclaradas, ", ");
+            }
             strcat(variaveisDeclaradas, identificador);
-            strcat(variaveisDeclaradas, ", ");
-            identificador = strtok(NULL, ", ");
-        }
-
-        if (strlen(variaveisDeclaradas) > 0) {
-            variaveisDeclaradas[strlen(variaveisDeclaradas) - 2] = '\0';
+            
+            identificador = strtok(NULL, ",");
         }
 
         asprintf(&(yyval.texto), "%s %s;\n", (yyvsp[-3].texto), variaveisDeclaradas);
 
+        free(copiaLista);
         free(variaveisDeclaradas);
     }
-#line 1627 "tradutor.tab.c"
+#line 1637 "tradutor.tab.c"
     break;
 
   case 6:
-#line 164 "src/tradutor.y"
+#line 177 "src/tradutor.y"
                         {
         printf("Parsed configuracao\n");
         (yyval.texto) = strdup((yyvsp[-1].texto));
     }
-#line 1636 "tradutor.tab.c"
+#line 1646 "tradutor.tab.c"
     break;
 
   case 7:
-#line 171 "src/tradutor.y"
+#line 184 "src/tradutor.y"
                         {
         printf("Parsed loop\n");
         (yyval.texto) = strdup((yyvsp[-1].texto));
     }
-#line 1645 "tradutor.tab.c"
+#line 1655 "tradutor.tab.c"
     break;
 
   case 8:
-#line 178 "src/tradutor.y"
+#line 191 "src/tradutor.y"
             {
         printf("Parsed single comando\n");
         (yyval.texto) = (yyvsp[0].texto);
     }
-#line 1654 "tradutor.tab.c"
+#line 1664 "tradutor.tab.c"
     break;
 
   case 9:
-#line 182 "src/tradutor.y"
+#line 195 "src/tradutor.y"
                        {
         printf("Parsed multiple comandos\n");
         asprintf(&(yyval.texto), "%s\n%s", (yyvsp[-1].texto), (yyvsp[0].texto));
     }
-#line 1663 "tradutor.tab.c"
+#line 1673 "tradutor.tab.c"
     break;
 
   case 10:
-#line 188 "src/tradutor.y"
+#line 201 "src/tradutor.y"
                                                       {
         printf("Parsed assignment: %s = %s\n", (yyvsp[-3].texto), (yyvsp[-1].texto));
         verificarUsoVariavel((yyvsp[-3].texto));
@@ -1676,403 +1686,413 @@ yyreduce:
             asprintf(&(yyval.texto), "%s = %s;", (yyvsp[-3].texto), (yyvsp[-1].texto));
         }
     }
-#line 1680 "tradutor.tab.c"
+#line 1690 "tradutor.tab.c"
     break;
 
   case 11:
-#line 200 "src/tradutor.y"
+#line 213 "src/tradutor.y"
                                                           {
         printf("Parsed pin configuration: %s as output\n", (yyvsp[-3].texto));
         verificarUsoVariavel((yyvsp[-3].texto));
         asprintf(&(yyval.texto), "pinMode(%s, OUTPUT);", (yyvsp[-3].texto));
     }
-#line 1690 "tradutor.tab.c"
+#line 1700 "tradutor.tab.c"
     break;
 
   case 12:
-#line 205 "src/tradutor.y"
+#line 218 "src/tradutor.y"
                                                             {
         printf("Parsed pin configuration: %s as input\n", (yyvsp[-3].texto));
         verificarUsoVariavel((yyvsp[-3].texto));
         asprintf(&(yyval.texto), "pinMode(%s, INPUT);", (yyvsp[-3].texto));
     }
-#line 1700 "tradutor.tab.c"
+#line 1710 "tradutor.tab.c"
     break;
 
   case 13:
-#line 210 "src/tradutor.y"
+#line 223 "src/tradutor.y"
+                                                                     {
+        printf("Parsed pin configuration: %s as input_pulldown\n", (yyvsp[-3].texto));
+        verificarUsoVariavel((yyvsp[-3].texto));
+        asprintf(&(yyval.texto), "pinMode(%s, INPUT_PULLDOWN);", (yyvsp[-3].texto));
+    }
+#line 1720 "tradutor.tab.c"
+    break;
+
+  case 14:
+#line 228 "src/tradutor.y"
                                             {
       printf("Parsed serial configuration: baud rate %d\n", (yyvsp[-1].num));
       asprintf(&(yyval.texto), "Serial.begin(%d);", (yyvsp[-1].num));
     }
-#line 1709 "tradutor.tab.c"
+#line 1729 "tradutor.tab.c"
     break;
 
-  case 14:
-#line 214 "src/tradutor.y"
+  case 15:
+#line 232 "src/tradutor.y"
                                           {
         printf("Parsed ligar: %s\n", (yyvsp[-1].texto));
         verificarUsoVariavel((yyvsp[-1].texto));
         asprintf(&(yyval.texto), "digitalWrite(%s, HIGH);", (yyvsp[-1].texto));
     }
-#line 1719 "tradutor.tab.c"
+#line 1739 "tradutor.tab.c"
     break;
 
-  case 15:
-#line 219 "src/tradutor.y"
+  case 16:
+#line 237 "src/tradutor.y"
                                              {
         printf("Parsed desligar: %s\n", (yyvsp[-1].texto));
         verificarUsoVariavel((yyvsp[-1].texto));
         asprintf(&(yyval.texto), "digitalWrite(%s, LOW);", (yyvsp[-1].texto));
     }
-#line 1729 "tradutor.tab.c"
+#line 1749 "tradutor.tab.c"
     break;
 
-  case 16:
-#line 224 "src/tradutor.y"
+  case 17:
+#line 242 "src/tradutor.y"
                                   {
         printf("Parsed esperar: %d\n", (yyvsp[-1].num));
         asprintf(&(yyval.texto), "delay(%d);", (yyvsp[-1].num));
     }
-#line 1738 "tradutor.tab.c"
+#line 1758 "tradutor.tab.c"
     break;
 
-  case 17:
-#line 228 "src/tradutor.y"
+  case 18:
+#line 246 "src/tradutor.y"
                                                                         {
         printf("Parsed digital read: %s = digitalRead(%s)\n", (yyvsp[-4].texto), (yyvsp[-1].texto));
         verificarUsoVariavel((yyvsp[-4].texto));
         verificarUsoVariavel((yyvsp[-1].texto));
         asprintf(&(yyval.texto), "%s = digitalRead(%s);", (yyvsp[-4].texto), (yyvsp[-1].texto));
     }
-#line 1749 "tradutor.tab.c"
+#line 1769 "tradutor.tab.c"
     break;
 
-  case 18:
-#line 234 "src/tradutor.y"
+  case 19:
+#line 252 "src/tradutor.y"
                                                                           {
         printf("Parsed analog read: %s = analogRead(%s)\n", (yyvsp[-4].texto), (yyvsp[-1].texto));
         verificarUsoVariavel((yyvsp[-4].texto));
         verificarUsoVariavel((yyvsp[-1].texto));
         asprintf(&(yyval.texto), "%s = analogRead(%s);", (yyvsp[-4].texto), (yyvsp[-1].texto));
     }
-#line 1760 "tradutor.tab.c"
+#line 1780 "tradutor.tab.c"
     break;
 
-  case 19:
-#line 240 "src/tradutor.y"
+  case 20:
+#line 258 "src/tradutor.y"
                                                                                     {
         printf("Parsed PWM configuration: %s with frequency %d and resolution %d\n", (yyvsp[-6].texto), (yyvsp[-3].num), (yyvsp[-1].num));
         verificarUsoVariavel((yyvsp[-6].texto));
         asprintf(&(yyval.texto), "ledcAttach(%s, %d, %d);", (yyvsp[-6].texto), (yyvsp[-3].num), (yyvsp[-1].num));
     }
-#line 1770 "tradutor.tab.c"
+#line 1790 "tradutor.tab.c"
     break;
 
-  case 20:
-#line 245 "src/tradutor.y"
+  case 21:
+#line 263 "src/tradutor.y"
                                                                         {
         printf("Parsed PWM adjustment: %s with value %s\n", (yyvsp[-4].texto), (yyvsp[-1].texto));
         verificarUsoVariavel((yyvsp[-4].texto));
         verificarUsoVariavel((yyvsp[-1].texto));
         asprintf(&(yyval.texto), "ledcWrite(%s, %s);", (yyvsp[-4].texto), (yyvsp[-1].texto));
     }
-#line 1781 "tradutor.tab.c"
+#line 1801 "tradutor.tab.c"
     break;
 
-  case 21:
-#line 251 "src/tradutor.y"
+  case 22:
+#line 269 "src/tradutor.y"
                                                               {
         printf("Parsed PWM adjustment: %s with value %d\n", (yyvsp[-4].texto), (yyvsp[-1].num));
         verificarUsoVariavel((yyvsp[-4].texto));
         asprintf(&(yyval.texto), "ledcWrite(0, %d);", (yyvsp[-1].num));
     }
-#line 1791 "tradutor.tab.c"
+#line 1811 "tradutor.tab.c"
     break;
 
-  case 22:
-#line 256 "src/tradutor.y"
+  case 23:
+#line 274 "src/tradutor.y"
                                                     {
         printf("Parsed conditional (if-else)\n");
         asprintf(&(yyval.texto), "if (%s) {\n%s\n} else {\n%s\n}", (yyvsp[-5].texto), (yyvsp[-3].texto), (yyvsp[-1].texto));
     }
-#line 1800 "tradutor.tab.c"
+#line 1820 "tradutor.tab.c"
     break;
 
-  case 23:
-#line 260 "src/tradutor.y"
+  case 24:
+#line 278 "src/tradutor.y"
                                                                 {
         printf("Parsed wifi connection: %s %s\n", (yyvsp[-2].texto), (yyvsp[-1].texto));
         verificarUsoVariavel((yyvsp[-2].texto));
         verificarUsoVariavel((yyvsp[-1].texto));
         asprintf(&(yyval.texto), "WiFi.begin(%s.c_str(), %s.c_str());\nwhile (WiFi.status() != WL_CONNECTED) {\ndelay(500);\nSerial.println(\"Conectando ao WiFi...\");\n}\nSerial.println(\"Conectado ao WiFi!\");\n", (yyvsp[-2].texto), (yyvsp[-1].texto));
     }
-#line 1811 "tradutor.tab.c"
+#line 1831 "tradutor.tab.c"
     break;
 
-  case 24:
-#line 266 "src/tradutor.y"
+  case 25:
+#line 284 "src/tradutor.y"
                                      {
         printf("Parsed conditional (if)\n");
         asprintf(&(yyval.texto), "if (%s) {\n%s\n}", (yyvsp[-3].texto), (yyvsp[-1].texto));
     }
-#line 1820 "tradutor.tab.c"
+#line 1840 "tradutor.tab.c"
     break;
 
-  case 25:
-#line 270 "src/tradutor.y"
+  case 26:
+#line 288 "src/tradutor.y"
                                      {
         printf("Parsed while loop\n");
         asprintf(&(yyval.texto), "while (%s) {\n%s\n}", (yyvsp[-2].texto), (yyvsp[-1].texto));
     }
-#line 1829 "tradutor.tab.c"
+#line 1849 "tradutor.tab.c"
     break;
 
-  case 26:
-#line 274 "src/tradutor.y"
+  case 27:
+#line 292 "src/tradutor.y"
                                              {
         printf("Comando de escrever na Serial encontrado: %s\n", (yyvsp[-1].texto));
         asprintf(&(yyval.texto), "Serial.println(%s);", (yyvsp[-1].texto));
     }
-#line 1838 "tradutor.tab.c"
+#line 1858 "tradutor.tab.c"
     break;
 
-  case 27:
-#line 278 "src/tradutor.y"
+  case 28:
+#line 296 "src/tradutor.y"
                                                     {
       printf("Comando de escrever identificador na Serial encontrado: %s\n", (yyvsp[-1].texto));
       verificarUsoVariavel((yyvsp[-1].texto));
       asprintf(&(yyval.texto), "Serial.println(%s);", (yyvsp[-1].texto));
     }
-#line 1848 "tradutor.tab.c"
+#line 1868 "tradutor.tab.c"
     break;
 
-  case 28:
-#line 283 "src/tradutor.y"
+  case 29:
+#line 301 "src/tradutor.y"
                                                          {
         printf("Comando de lerSerial encontrado: %s\n", (yyvsp[-3].texto));
         verificarUsoVariavel((yyvsp[-3].texto));
         asprintf(&(yyval.texto), "%s = Serial.readString();", (yyvsp[-3].texto)); 
     }
-#line 1858 "tradutor.tab.c"
+#line 1878 "tradutor.tab.c"
     break;
 
-  case 29:
-#line 288 "src/tradutor.y"
+  case 30:
+#line 306 "src/tradutor.y"
                                                 {
         printf("Comando enviarHttp encontrado: URL = %s, Dados = %s\n", (yyvsp[-2].texto), (yyvsp[-1].texto));
         asprintf(&(yyval.texto), "HttpClient http;\nhttp.begin(%s);\nhttp.addHeader(\"Content-Type\", \"application/x-www-form-urlencoded\");\nhttp.POST(%s);\nhttp.end();", (yyvsp[-2].texto), (yyvsp[-1].texto));
     }
-#line 1867 "tradutor.tab.c"
+#line 1887 "tradutor.tab.c"
     break;
 
-  case 30:
-#line 295 "src/tradutor.y"
+  case 31:
+#line 313 "src/tradutor.y"
                   {
         printf("Parsed identifier: %s\n", (yyvsp[0].texto));
         (yyval.texto) = strdup((yyvsp[0].texto));
     }
-#line 1876 "tradutor.tab.c"
+#line 1896 "tradutor.tab.c"
     break;
 
-  case 31:
-#line 299 "src/tradutor.y"
+  case 32:
+#line 317 "src/tradutor.y"
                                                   {
         printf("Parsed identifier: %s\n", (yyvsp[0].texto));
         asprintf(&(yyval.texto), "%s, %s", (yyvsp[-2].texto), (yyvsp[0].texto));
     }
-#line 1885 "tradutor.tab.c"
+#line 1905 "tradutor.tab.c"
     break;
 
-  case 32:
-#line 306 "src/tradutor.y"
+  case 33:
+#line 324 "src/tradutor.y"
                   {
         verificarUsoVariavel((yyvsp[0].texto));
         (yyval.texto) = (yyvsp[0].texto);
     }
-#line 1894 "tradutor.tab.c"
+#line 1914 "tradutor.tab.c"
     break;
 
-  case 33:
-#line 310 "src/tradutor.y"
+  case 34:
+#line 328 "src/tradutor.y"
           {
         char numStr[20];
         sprintf(numStr, "%d", (yyvsp[0].num));
         (yyval.texto) = strdup(numStr);
     }
-#line 1904 "tradutor.tab.c"
-    break;
-
-  case 34:
-#line 315 "src/tradutor.y"
-             {
-        (yyval.texto) = (yyvsp[0].texto);
-    }
-#line 1912 "tradutor.tab.c"
+#line 1924 "tradutor.tab.c"
     break;
 
   case 35:
-#line 318 "src/tradutor.y"
-                               {
-        asprintf(&(yyval.texto), "%s + %s", (yyvsp[-2].texto), (yyvsp[0].texto));
+#line 333 "src/tradutor.y"
+             {
+        (yyval.texto) = (yyvsp[0].texto);
     }
-#line 1920 "tradutor.tab.c"
+#line 1932 "tradutor.tab.c"
     break;
 
   case 36:
-#line 321 "src/tradutor.y"
-                                    {
-        asprintf(&(yyval.texto), "%s - %s", (yyvsp[-2].texto), (yyvsp[0].texto));
+#line 336 "src/tradutor.y"
+                               {
+        asprintf(&(yyval.texto), "%s + %s", (yyvsp[-2].texto), (yyvsp[0].texto));
     }
-#line 1928 "tradutor.tab.c"
+#line 1940 "tradutor.tab.c"
     break;
 
   case 37:
-#line 324 "src/tradutor.y"
-                                        {
-        asprintf(&(yyval.texto), "%s * %s", (yyvsp[-2].texto), (yyvsp[0].texto));
+#line 339 "src/tradutor.y"
+                                    {
+        asprintf(&(yyval.texto), "%s - %s", (yyvsp[-2].texto), (yyvsp[0].texto));
     }
-#line 1936 "tradutor.tab.c"
+#line 1948 "tradutor.tab.c"
     break;
 
   case 38:
-#line 327 "src/tradutor.y"
-                                  {
-        asprintf(&(yyval.texto), "%s / %s", (yyvsp[-2].texto), (yyvsp[0].texto));
+#line 342 "src/tradutor.y"
+                                        {
+        asprintf(&(yyval.texto), "%s * %s", (yyvsp[-2].texto), (yyvsp[0].texto));
     }
-#line 1944 "tradutor.tab.c"
+#line 1956 "tradutor.tab.c"
     break;
 
   case 39:
-#line 330 "src/tradutor.y"
-                                {
-        asprintf(&(yyval.texto), "%s == %s", (yyvsp[-2].texto), (yyvsp[0].texto));
+#line 345 "src/tradutor.y"
+                                  {
+        asprintf(&(yyval.texto), "%s / %s", (yyvsp[-2].texto), (yyvsp[0].texto));
     }
-#line 1952 "tradutor.tab.c"
+#line 1964 "tradutor.tab.c"
     break;
 
   case 40:
-#line 333 "src/tradutor.y"
-                                    {
-        asprintf(&(yyval.texto), "%s != %s", (yyvsp[-2].texto), (yyvsp[0].texto));
+#line 348 "src/tradutor.y"
+                                {
+        asprintf(&(yyval.texto), "%s == %s", (yyvsp[-2].texto), (yyvsp[0].texto));
     }
-#line 1960 "tradutor.tab.c"
+#line 1972 "tradutor.tab.c"
     break;
 
   case 41:
-#line 336 "src/tradutor.y"
-                                {
-        asprintf(&(yyval.texto), "%s < %s", (yyvsp[-2].texto), (yyvsp[0].texto));
-    }
-#line 1968 "tradutor.tab.c"
-    break;
-
-  case 42:
-#line 339 "src/tradutor.y"
-                                {
-        asprintf(&(yyval.texto), "%s > %s", (yyvsp[-2].texto), (yyvsp[0].texto));
-    }
-#line 1976 "tradutor.tab.c"
-    break;
-
-  case 43:
-#line 342 "src/tradutor.y"
-                                      {
-        asprintf(&(yyval.texto), "%s <= %s", (yyvsp[-2].texto), (yyvsp[0].texto));
-    }
-#line 1984 "tradutor.tab.c"
-    break;
-
-  case 44:
-#line 345 "src/tradutor.y"
-                                      {
-        asprintf(&(yyval.texto), "%s >= %s", (yyvsp[-2].texto), (yyvsp[0].texto));
-    }
-#line 1992 "tradutor.tab.c"
-    break;
-
-  case 45:
-#line 348 "src/tradutor.y"
-                        {
-        (yyval.texto) = (yyvsp[-1].texto);
-    }
-#line 2000 "tradutor.tab.c"
-    break;
-
-  case 46:
-#line 354 "src/tradutor.y"
-                              {
-        asprintf(&(yyval.texto), "%s == %s", (yyvsp[-2].texto), (yyvsp[0].texto));
-    }
-#line 2008 "tradutor.tab.c"
-    break;
-
-  case 47:
-#line 357 "src/tradutor.y"
+#line 351 "src/tradutor.y"
                                     {
         asprintf(&(yyval.texto), "%s != %s", (yyvsp[-2].texto), (yyvsp[0].texto));
     }
-#line 2016 "tradutor.tab.c"
+#line 1980 "tradutor.tab.c"
     break;
 
-  case 48:
-#line 360 "src/tradutor.y"
+  case 42:
+#line 354 "src/tradutor.y"
                                 {
         asprintf(&(yyval.texto), "%s < %s", (yyvsp[-2].texto), (yyvsp[0].texto));
     }
-#line 2024 "tradutor.tab.c"
+#line 1988 "tradutor.tab.c"
     break;
 
-  case 49:
-#line 363 "src/tradutor.y"
+  case 43:
+#line 357 "src/tradutor.y"
                                 {
         asprintf(&(yyval.texto), "%s > %s", (yyvsp[-2].texto), (yyvsp[0].texto));
     }
-#line 2032 "tradutor.tab.c"
+#line 1996 "tradutor.tab.c"
     break;
 
-  case 50:
-#line 366 "src/tradutor.y"
+  case 44:
+#line 360 "src/tradutor.y"
                                       {
         asprintf(&(yyval.texto), "%s <= %s", (yyvsp[-2].texto), (yyvsp[0].texto));
     }
-#line 2040 "tradutor.tab.c"
+#line 2004 "tradutor.tab.c"
     break;
 
-  case 51:
-#line 369 "src/tradutor.y"
+  case 45:
+#line 363 "src/tradutor.y"
                                       {
         asprintf(&(yyval.texto), "%s >= %s", (yyvsp[-2].texto), (yyvsp[0].texto));
     }
-#line 2048 "tradutor.tab.c"
+#line 2012 "tradutor.tab.c"
+    break;
+
+  case 46:
+#line 366 "src/tradutor.y"
+                        {
+        (yyval.texto) = (yyvsp[-1].texto);
+    }
+#line 2020 "tradutor.tab.c"
+    break;
+
+  case 47:
+#line 372 "src/tradutor.y"
+                              {
+        asprintf(&(yyval.texto), "%s == %s", (yyvsp[-2].texto), (yyvsp[0].texto));
+    }
+#line 2028 "tradutor.tab.c"
+    break;
+
+  case 48:
+#line 375 "src/tradutor.y"
+                                    {
+        asprintf(&(yyval.texto), "%s != %s", (yyvsp[-2].texto), (yyvsp[0].texto));
+    }
+#line 2036 "tradutor.tab.c"
+    break;
+
+  case 49:
+#line 378 "src/tradutor.y"
+                                {
+        asprintf(&(yyval.texto), "%s < %s", (yyvsp[-2].texto), (yyvsp[0].texto));
+    }
+#line 2044 "tradutor.tab.c"
+    break;
+
+  case 50:
+#line 381 "src/tradutor.y"
+                                {
+        asprintf(&(yyval.texto), "%s > %s", (yyvsp[-2].texto), (yyvsp[0].texto));
+    }
+#line 2052 "tradutor.tab.c"
+    break;
+
+  case 51:
+#line 384 "src/tradutor.y"
+                                      {
+        asprintf(&(yyval.texto), "%s <= %s", (yyvsp[-2].texto), (yyvsp[0].texto));
+    }
+#line 2060 "tradutor.tab.c"
     break;
 
   case 52:
-#line 375 "src/tradutor.y"
-            {
-        (yyval.texto) = "int";
+#line 387 "src/tradutor.y"
+                                      {
+        asprintf(&(yyval.texto), "%s >= %s", (yyvsp[-2].texto), (yyvsp[0].texto));
     }
-#line 2056 "tradutor.tab.c"
+#line 2068 "tradutor.tab.c"
     break;
 
   case 53:
-#line 378 "src/tradutor.y"
-               {
-        (yyval.texto) = "bool";
+#line 393 "src/tradutor.y"
+            {
+        (yyval.texto) = "int";
     }
-#line 2064 "tradutor.tab.c"
+#line 2076 "tradutor.tab.c"
     break;
 
   case 54:
-#line 381 "src/tradutor.y"
+#line 396 "src/tradutor.y"
+               {
+        (yyval.texto) = "bool";
+    }
+#line 2084 "tradutor.tab.c"
+    break;
+
+  case 55:
+#line 399 "src/tradutor.y"
             {
         (yyval.texto) = "String";
     }
-#line 2072 "tradutor.tab.c"
+#line 2092 "tradutor.tab.c"
     break;
 
 
-#line 2076 "tradutor.tab.c"
+#line 2096 "tradutor.tab.c"
 
       default: break;
     }
@@ -2304,7 +2324,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 386 "src/tradutor.y"
+#line 404 "src/tradutor.y"
 
 
 void yyerror(const char *s) {
