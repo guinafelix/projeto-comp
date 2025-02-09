@@ -1,0 +1,17 @@
+var inteiro: led, botao, valorLido;
+
+config
+    configurarSerial 115200;
+    led = 2;
+    botao = 4;
+    configurar led como entrada;
+    configurar botao como entrada;
+fim
+
+repita
+    ligar led;
+    valorLido = lerDigital botao;
+    desligar botao;
+    ajustarPWM led com valor 128;
+    esperar 1000;
+fim

@@ -131,7 +131,7 @@ void verificarUsoVariavel(char *nome) {
 /* Declare tokens and their types */
 %right IGUALDADE
 %left SOMA SUBTRACAO
-%left MULTIPLICACAO DIVISAO
+%left MULTIPLICACAO DIVISAO MODULO
 %left IGUAL DIFERENTE MENOR MAIOR MENOR_IGUAL MAIOR_IGUAL
 %token <texto> IDENTIFICADOR
 %token <num> NUM
@@ -142,7 +142,7 @@ void verificarUsoVariavel(char *nome) {
 %token LER_DIGITAL LER_ANALOGICO
 %token CONFIGURAR_PWM FREQUENCIA RESOLUCAO AJUSTAR_PWM VALOR
 %token COM IGUAL DIFERENTE MENOR MAIOR MENOR_IGUAL MAIOR_IGUAL
-%token SOMA SUBTRACAO MULTIPLICACAO DIVISAO ENTRADA_PULLDOWN
+%token SOMA SUBTRACAO MULTIPLICACAO DIVISAO ENTRADA_PULLDOWN MODULO
 %token SE SENAO ENTAO ENQUANTO ESCREVER_SERIAL LER_SERIAL ENVIAR_HTTP
 %token DOIS_PONTOS PONTO_E_VIRGULA VIRGULA IGUALDADE CONFIGURAR_SERIAL
 
@@ -409,6 +409,9 @@ expressao:
     | expressao MAIOR_IGUAL expressao {
         asprintf(&$$, "%s >= %s", $1, $3);
     }
+    | expressao MODULO expressao {
+        asprintf(&$$, "%s %% %s", $1, $3);
+    }
     | '(' expressao ')' {
         $$ = $2;
     }
@@ -432,6 +435,9 @@ condicao:
     }
     | expressao MAIOR_IGUAL expressao {
         asprintf(&$$, "%s >= %s", $1, $3);
+    }
+    | expressao MODULO expressao {
+        asprintf(&$$, "%s %% %s", $1, $3);
     }
 ;
 

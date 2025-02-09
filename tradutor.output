@@ -54,113 +54,116 @@ Grammar
    42          | expressao MAIOR expressao
    43          | expressao MENOR_IGUAL expressao
    44          | expressao MAIOR_IGUAL expressao
-   45          | '(' expressao ')'
+   45          | expressao MODULO expressao
+   46          | '(' expressao ')'
 
-   46 condicao: expressao IGUAL expressao
-   47         | expressao DIFERENTE expressao
-   48         | expressao MENOR expressao
-   49         | expressao MAIOR expressao
-   50         | expressao MENOR_IGUAL expressao
-   51         | expressao MAIOR_IGUAL expressao
+   47 condicao: expressao IGUAL expressao
+   48         | expressao DIFERENTE expressao
+   49         | expressao MENOR expressao
+   50         | expressao MAIOR expressao
+   51         | expressao MENOR_IGUAL expressao
+   52         | expressao MAIOR_IGUAL expressao
+   53         | expressao MODULO expressao
 
-   52 tipo_declaracao: INTEIRO
-   53                | BOOLEANO
-   54                | TEXTO
+   54 tipo_declaracao: INTEIRO
+   55                | BOOLEANO
+   56                | TEXTO
 
 
 Terminals, with rules where they appear
 
     $end (0) 0
-    '(' (40) 45
-    ')' (41) 45
+    '(' (40) 46
+    ')' (41) 46
     error (256)
     IGUALDADE (258) 9 17 18 28
     SOMA (259) 35
     SUBTRACAO (260) 36
     MULTIPLICACAO (261) 37
     DIVISAO (262) 38
-    IGUAL (263) 39 46
-    DIFERENTE (264) 40 47
-    MENOR (265) 41 48
-    MAIOR (266) 42 49
-    MENOR_IGUAL (267) 43 50
-    MAIOR_IGUAL (268) 44 51
-    IDENTIFICADOR <texto> (269) 9 10 11 12 14 15 17 18 19 20 21 23 27 28 30 31 32
-    NUM <num> (270) 13 16 19 21 33
-    STRING <texto> (271) 26 29 34
-    VAR (272) 4
-    CONFIGURAR (273) 10 11 12
-    COMO (274) 10 11 12
-    SAIDA (275) 10
-    LIGAR (276) 14
-    DESLIGAR (277) 15
-    ESPERAR (278) 16
-    INTEIRO (279) 52
-    BOOLEANO (280) 53
-    TEXTO (281) 54
-    CONFIG (282) 5
-    REPITA (283) 6
-    FIM (284) 5 6 22 24 25
-    ENTRADA (285) 11
-    CONECTAR_WIFI (286) 23
-    LER_DIGITAL (287) 17
-    LER_ANALOGICO (288) 18
-    CONFIGURAR_PWM (289) 19
-    FREQUENCIA (290) 19
-    RESOLUCAO (291) 19
-    AJUSTAR_PWM (292) 20 21
-    VALOR (293) 20 21
-    COM (294) 19 20 21
-    ENTRADA_PULLDOWN (295) 12
-    SE (296) 22 24
-    SENAO (297) 22
-    ENTAO (298) 22 24
-    ENQUANTO (299) 25
-    ESCREVER_SERIAL (300) 26 27
-    LER_SERIAL (301) 28
-    ENVIAR_HTTP (302) 29
-    DOIS_PONTOS (303) 4
-    PONTO_E_VIRGULA (304) 4 9 10 11 12 13 14 15 16 17 18 19 20 21 23 26 27 28 29
-    VIRGULA (305) 31
-    CONFIGURAR_SERIAL (306) 13
+    MODULO (263) 45 53
+    IGUAL (264) 39 47
+    DIFERENTE (265) 40 48
+    MENOR (266) 41 49
+    MAIOR (267) 42 50
+    MENOR_IGUAL (268) 43 51
+    MAIOR_IGUAL (269) 44 52
+    IDENTIFICADOR <texto> (270) 9 10 11 12 14 15 17 18 19 20 21 23 27 28 30 31 32
+    NUM <num> (271) 13 16 19 21 33
+    STRING <texto> (272) 26 29 34
+    VAR (273) 4
+    CONFIGURAR (274) 10 11 12
+    COMO (275) 10 11 12
+    SAIDA (276) 10
+    LIGAR (277) 14
+    DESLIGAR (278) 15
+    ESPERAR (279) 16
+    INTEIRO (280) 54
+    BOOLEANO (281) 55
+    TEXTO (282) 56
+    CONFIG (283) 5
+    REPITA (284) 6
+    FIM (285) 5 6 22 24 25
+    ENTRADA (286) 11
+    CONECTAR_WIFI (287) 23
+    LER_DIGITAL (288) 17
+    LER_ANALOGICO (289) 18
+    CONFIGURAR_PWM (290) 19
+    FREQUENCIA (291) 19
+    RESOLUCAO (292) 19
+    AJUSTAR_PWM (293) 20 21
+    VALOR (294) 20 21
+    COM (295) 19 20 21
+    ENTRADA_PULLDOWN (296) 12
+    SE (297) 22 24
+    SENAO (298) 22
+    ENTAO (299) 22 24
+    ENQUANTO (300) 25
+    ESCREVER_SERIAL (301) 26 27
+    LER_SERIAL (302) 28
+    ENVIAR_HTTP (303) 29
+    DOIS_PONTOS (304) 4
+    PONTO_E_VIRGULA (305) 4 9 10 11 12 13 14 15 16 17 18 19 20 21 23 26 27 28 29
+    VIRGULA (306) 31
+    CONFIGURAR_SERIAL (307) 13
 
 
 Nonterminals, with rules where they appear
 
-    $accept (54)
+    $accept (55)
         on left: 0
-    programa <texto> (55)
+    programa <texto> (56)
         on left: 1
         on right: 0
-    declaracoes <texto> (56)
+    declaracoes <texto> (57)
         on left: 2 3
         on right: 1 3
-    declaracao <texto> (57)
+    declaracao <texto> (58)
         on left: 4
         on right: 2 3
-    configuracao <texto> (58)
+    configuracao <texto> (59)
         on left: 5
         on right: 1
-    loop <texto> (59)
+    loop <texto> (60)
         on left: 6
         on right: 1
-    comandos <texto> (60)
+    comandos <texto> (61)
         on left: 7 8
         on right: 5 6 8 22 24 25
-    comando <texto> (61)
+    comando <texto> (62)
         on left: 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29
         on right: 7 8
-    lista_identificadores <texto> (62)
+    lista_identificadores <texto> (63)
         on left: 30 31
         on right: 4 31
-    expressao <texto> (63)
-        on left: 32 33 34 35 36 37 38 39 40 41 42 43 44 45
-        on right: 9 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51
-    condicao <texto> (64)
-        on left: 46 47 48 49 50 51
+    expressao <texto> (64)
+        on left: 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46
+        on right: 9 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53
+    condicao <texto> (65)
+        on left: 47 48 49 50 51 52 53
         on right: 22 24 25
-    tipo_declaracao <texto> (65)
-        on left: 52 53 54
+    tipo_declaracao <texto> (66)
+        on left: 54 55 56
         on right: 4
 
 
@@ -214,23 +217,23 @@ State 4
 
 State 5
 
-   52 tipo_declaracao: INTEIRO .
+   54 tipo_declaracao: INTEIRO .
 
-    $default  reduce using rule 52 (tipo_declaracao)
+    $default  reduce using rule 54 (tipo_declaracao)
 
 
 State 6
 
-   53 tipo_declaracao: BOOLEANO .
+   55 tipo_declaracao: BOOLEANO .
 
-    $default  reduce using rule 53 (tipo_declaracao)
+    $default  reduce using rule 55 (tipo_declaracao)
 
 
 State 7
 
-   54 tipo_declaracao: TEXTO .
+   56 tipo_declaracao: TEXTO .
 
-    $default  reduce using rule 54 (tipo_declaracao)
+    $default  reduce using rule 56 (tipo_declaracao)
 
 
 State 8
@@ -574,7 +577,7 @@ State 43
 
 State 44
 
-   45 expressao: '(' . expressao ')'
+   46 expressao: '(' . expressao ')'
 
     IDENTIFICADOR  shift, and go to state 41
     NUM            shift, and go to state 42
@@ -596,23 +599,26 @@ State 45
    42          | expressao . MAIOR expressao
    43          | expressao . MENOR_IGUAL expressao
    44          | expressao . MAIOR_IGUAL expressao
-   46 condicao: expressao . IGUAL expressao
-   47         | expressao . DIFERENTE expressao
-   48         | expressao . MENOR expressao
-   49         | expressao . MAIOR expressao
-   50         | expressao . MENOR_IGUAL expressao
-   51         | expressao . MAIOR_IGUAL expressao
+   45          | expressao . MODULO expressao
+   47 condicao: expressao . IGUAL expressao
+   48         | expressao . DIFERENTE expressao
+   49         | expressao . MENOR expressao
+   50         | expressao . MAIOR expressao
+   51         | expressao . MENOR_IGUAL expressao
+   52         | expressao . MAIOR_IGUAL expressao
+   53         | expressao . MODULO expressao
 
     SOMA           shift, and go to state 69
     SUBTRACAO      shift, and go to state 70
     MULTIPLICACAO  shift, and go to state 71
     DIVISAO        shift, and go to state 72
-    IGUAL          shift, and go to state 73
-    DIFERENTE      shift, and go to state 74
-    MENOR          shift, and go to state 75
-    MAIOR          shift, and go to state 76
-    MENOR_IGUAL    shift, and go to state 77
-    MAIOR_IGUAL    shift, and go to state 78
+    MODULO         shift, and go to state 73
+    IGUAL          shift, and go to state 74
+    DIFERENTE      shift, and go to state 75
+    MENOR          shift, and go to state 76
+    MAIOR          shift, and go to state 77
+    MENOR_IGUAL    shift, and go to state 78
+    MAIOR_IGUAL    shift, and go to state 79
 
 
 State 46
@@ -620,7 +626,7 @@ State 46
    22 comando: SE condicao . ENTAO comandos SENAO comandos FIM
    24        | SE condicao . ENTAO comandos FIM
 
-    ENTAO  shift, and go to state 79
+    ENTAO  shift, and go to state 80
 
 
 State 47
@@ -641,7 +647,7 @@ State 47
     ENVIAR_HTTP        shift, and go to state 25
     CONFIGURAR_SERIAL  shift, and go to state 26
 
-    comandos  go to state 80
+    comandos  go to state 81
     comando   go to state 28
 
 
@@ -649,28 +655,28 @@ State 48
 
    27 comando: ESCREVER_SERIAL IDENTIFICADOR . PONTO_E_VIRGULA
 
-    PONTO_E_VIRGULA  shift, and go to state 81
+    PONTO_E_VIRGULA  shift, and go to state 82
 
 
 State 49
 
    26 comando: ESCREVER_SERIAL STRING . PONTO_E_VIRGULA
 
-    PONTO_E_VIRGULA  shift, and go to state 82
+    PONTO_E_VIRGULA  shift, and go to state 83
 
 
 State 50
 
    29 comando: ENVIAR_HTTP STRING . STRING PONTO_E_VIRGULA
 
-    STRING  shift, and go to state 83
+    STRING  shift, and go to state 84
 
 
 State 51
 
    13 comando: CONFIGURAR_SERIAL NUM . PONTO_E_VIRGULA
 
-    PONTO_E_VIRGULA  shift, and go to state 84
+    PONTO_E_VIRGULA  shift, and go to state 85
 
 
 State 52
@@ -697,7 +703,7 @@ State 54
     LIGAR              shift, and go to state 16
     DESLIGAR           shift, and go to state 17
     ESPERAR            shift, and go to state 18
-    FIM                shift, and go to state 85
+    FIM                shift, and go to state 86
     CONECTAR_WIFI      shift, and go to state 19
     CONFIGURAR_PWM     shift, and go to state 20
     AJUSTAR_PWM        shift, and go to state 21
@@ -721,28 +727,28 @@ State 56
 
    31 lista_identificadores: lista_identificadores VIRGULA . IDENTIFICADOR
 
-    IDENTIFICADOR  shift, and go to state 86
+    IDENTIFICADOR  shift, and go to state 87
 
 
 State 57
 
    17 comando: IDENTIFICADOR IGUALDADE LER_DIGITAL . IDENTIFICADOR PONTO_E_VIRGULA
 
-    IDENTIFICADOR  shift, and go to state 87
+    IDENTIFICADOR  shift, and go to state 88
 
 
 State 58
 
    18 comando: IDENTIFICADOR IGUALDADE LER_ANALOGICO . IDENTIFICADOR PONTO_E_VIRGULA
 
-    IDENTIFICADOR  shift, and go to state 88
+    IDENTIFICADOR  shift, and go to state 89
 
 
 State 59
 
    28 comando: IDENTIFICADOR IGUALDADE LER_SERIAL . PONTO_E_VIRGULA
 
-    PONTO_E_VIRGULA  shift, and go to state 89
+    PONTO_E_VIRGULA  shift, and go to state 90
 
 
 State 60
@@ -758,18 +764,20 @@ State 60
    42          | expressao . MAIOR expressao
    43          | expressao . MENOR_IGUAL expressao
    44          | expressao . MAIOR_IGUAL expressao
+   45          | expressao . MODULO expressao
 
     SOMA             shift, and go to state 69
     SUBTRACAO        shift, and go to state 70
     MULTIPLICACAO    shift, and go to state 71
     DIVISAO          shift, and go to state 72
-    IGUAL            shift, and go to state 90
-    DIFERENTE        shift, and go to state 91
-    MENOR            shift, and go to state 92
-    MAIOR            shift, and go to state 93
-    MENOR_IGUAL      shift, and go to state 94
-    MAIOR_IGUAL      shift, and go to state 95
-    PONTO_E_VIRGULA  shift, and go to state 96
+    MODULO           shift, and go to state 91
+    IGUAL            shift, and go to state 92
+    DIFERENTE        shift, and go to state 93
+    MENOR            shift, and go to state 94
+    MAIOR            shift, and go to state 95
+    MENOR_IGUAL      shift, and go to state 96
+    MAIOR_IGUAL      shift, and go to state 97
+    PONTO_E_VIRGULA  shift, and go to state 98
 
 
 State 61
@@ -778,9 +786,9 @@ State 61
    11        | CONFIGURAR IDENTIFICADOR COMO . ENTRADA PONTO_E_VIRGULA
    12        | CONFIGURAR IDENTIFICADOR COMO . ENTRADA_PULLDOWN PONTO_E_VIRGULA
 
-    SAIDA             shift, and go to state 97
-    ENTRADA           shift, and go to state 98
-    ENTRADA_PULLDOWN  shift, and go to state 99
+    SAIDA             shift, and go to state 99
+    ENTRADA           shift, and go to state 100
+    ENTRADA_PULLDOWN  shift, and go to state 101
 
 
 State 62
@@ -808,14 +816,14 @@ State 65
 
    23 comando: CONECTAR_WIFI IDENTIFICADOR IDENTIFICADOR . PONTO_E_VIRGULA
 
-    PONTO_E_VIRGULA  shift, and go to state 100
+    PONTO_E_VIRGULA  shift, and go to state 102
 
 
 State 66
 
    19 comando: CONFIGURAR_PWM IDENTIFICADOR COM . FREQUENCIA NUM RESOLUCAO NUM PONTO_E_VIRGULA
 
-    FREQUENCIA  shift, and go to state 101
+    FREQUENCIA  shift, and go to state 103
 
 
 State 67
@@ -823,7 +831,7 @@ State 67
    20 comando: AJUSTAR_PWM IDENTIFICADOR COM . VALOR IDENTIFICADOR PONTO_E_VIRGULA
    21        | AJUSTAR_PWM IDENTIFICADOR COM . VALOR NUM PONTO_E_VIRGULA
 
-    VALOR  shift, and go to state 102
+    VALOR  shift, and go to state 104
 
 
 State 68
@@ -838,19 +846,21 @@ State 68
    42          | expressao . MAIOR expressao
    43          | expressao . MENOR_IGUAL expressao
    44          | expressao . MAIOR_IGUAL expressao
-   45          | '(' expressao . ')'
+   45          | expressao . MODULO expressao
+   46          | '(' expressao . ')'
 
     SOMA           shift, and go to state 69
     SUBTRACAO      shift, and go to state 70
     MULTIPLICACAO  shift, and go to state 71
     DIVISAO        shift, and go to state 72
-    IGUAL          shift, and go to state 90
-    DIFERENTE      shift, and go to state 91
-    MENOR          shift, and go to state 92
-    MAIOR          shift, and go to state 93
-    MENOR_IGUAL    shift, and go to state 94
-    MAIOR_IGUAL    shift, and go to state 95
-    ')'            shift, and go to state 103
+    MODULO         shift, and go to state 91
+    IGUAL          shift, and go to state 92
+    DIFERENTE      shift, and go to state 93
+    MENOR          shift, and go to state 94
+    MAIOR          shift, and go to state 95
+    MENOR_IGUAL    shift, and go to state 96
+    MAIOR_IGUAL    shift, and go to state 97
+    ')'            shift, and go to state 105
 
 
 State 69
@@ -862,7 +872,7 @@ State 69
     STRING         shift, and go to state 43
     '('            shift, and go to state 44
 
-    expressao  go to state 104
+    expressao  go to state 106
 
 
 State 70
@@ -874,7 +884,7 @@ State 70
     STRING         shift, and go to state 43
     '('            shift, and go to state 44
 
-    expressao  go to state 105
+    expressao  go to state 107
 
 
 State 71
@@ -886,7 +896,7 @@ State 71
     STRING         shift, and go to state 43
     '('            shift, and go to state 44
 
-    expressao  go to state 106
+    expressao  go to state 108
 
 
 State 72
@@ -898,39 +908,13 @@ State 72
     STRING         shift, and go to state 43
     '('            shift, and go to state 44
 
-    expressao  go to state 107
+    expressao  go to state 109
 
 
 State 73
 
-   39 expressao: expressao IGUAL . expressao
-   46 condicao: expressao IGUAL . expressao
-
-    IDENTIFICADOR  shift, and go to state 41
-    NUM            shift, and go to state 42
-    STRING         shift, and go to state 43
-    '('            shift, and go to state 44
-
-    expressao  go to state 108
-
-
-State 74
-
-   40 expressao: expressao DIFERENTE . expressao
-   47 condicao: expressao DIFERENTE . expressao
-
-    IDENTIFICADOR  shift, and go to state 41
-    NUM            shift, and go to state 42
-    STRING         shift, and go to state 43
-    '('            shift, and go to state 44
-
-    expressao  go to state 109
-
-
-State 75
-
-   41 expressao: expressao MENOR . expressao
-   48 condicao: expressao MENOR . expressao
+   45 expressao: expressao MODULO . expressao
+   53 condicao: expressao MODULO . expressao
 
     IDENTIFICADOR  shift, and go to state 41
     NUM            shift, and go to state 42
@@ -940,10 +924,10 @@ State 75
     expressao  go to state 110
 
 
-State 76
+State 74
 
-   42 expressao: expressao MAIOR . expressao
-   49 condicao: expressao MAIOR . expressao
+   39 expressao: expressao IGUAL . expressao
+   47 condicao: expressao IGUAL . expressao
 
     IDENTIFICADOR  shift, and go to state 41
     NUM            shift, and go to state 42
@@ -953,10 +937,10 @@ State 76
     expressao  go to state 111
 
 
-State 77
+State 75
 
-   43 expressao: expressao MENOR_IGUAL . expressao
-   50 condicao: expressao MENOR_IGUAL . expressao
+   40 expressao: expressao DIFERENTE . expressao
+   48 condicao: expressao DIFERENTE . expressao
 
     IDENTIFICADOR  shift, and go to state 41
     NUM            shift, and go to state 42
@@ -966,10 +950,10 @@ State 77
     expressao  go to state 112
 
 
-State 78
+State 76
 
-   44 expressao: expressao MAIOR_IGUAL . expressao
-   51 condicao: expressao MAIOR_IGUAL . expressao
+   41 expressao: expressao MENOR . expressao
+   49 condicao: expressao MENOR . expressao
 
     IDENTIFICADOR  shift, and go to state 41
     NUM            shift, and go to state 42
@@ -979,7 +963,46 @@ State 78
     expressao  go to state 113
 
 
+State 77
+
+   42 expressao: expressao MAIOR . expressao
+   50 condicao: expressao MAIOR . expressao
+
+    IDENTIFICADOR  shift, and go to state 41
+    NUM            shift, and go to state 42
+    STRING         shift, and go to state 43
+    '('            shift, and go to state 44
+
+    expressao  go to state 114
+
+
+State 78
+
+   43 expressao: expressao MENOR_IGUAL . expressao
+   51 condicao: expressao MENOR_IGUAL . expressao
+
+    IDENTIFICADOR  shift, and go to state 41
+    NUM            shift, and go to state 42
+    STRING         shift, and go to state 43
+    '('            shift, and go to state 44
+
+    expressao  go to state 115
+
+
 State 79
+
+   44 expressao: expressao MAIOR_IGUAL . expressao
+   52 condicao: expressao MAIOR_IGUAL . expressao
+
+    IDENTIFICADOR  shift, and go to state 41
+    NUM            shift, and go to state 42
+    STRING         shift, and go to state 43
+    '('            shift, and go to state 44
+
+    expressao  go to state 116
+
+
+State 80
 
    22 comando: SE condicao ENTAO . comandos SENAO comandos FIM
    24        | SE condicao ENTAO . comandos FIM
@@ -998,11 +1021,11 @@ State 79
     ENVIAR_HTTP        shift, and go to state 25
     CONFIGURAR_SERIAL  shift, and go to state 26
 
-    comandos  go to state 114
+    comandos  go to state 117
     comando   go to state 28
 
 
-State 80
+State 81
 
     8 comandos: comandos . comando
    25 comando: ENQUANTO condicao comandos . FIM
@@ -1012,7 +1035,7 @@ State 80
     LIGAR              shift, and go to state 16
     DESLIGAR           shift, and go to state 17
     ESPERAR            shift, and go to state 18
-    FIM                shift, and go to state 115
+    FIM                shift, and go to state 118
     CONECTAR_WIFI      shift, and go to state 19
     CONFIGURAR_PWM     shift, and go to state 20
     AJUSTAR_PWM        shift, and go to state 21
@@ -1025,108 +1048,72 @@ State 80
     comando  go to state 53
 
 
-State 81
+State 82
 
    27 comando: ESCREVER_SERIAL IDENTIFICADOR PONTO_E_VIRGULA .
 
     $default  reduce using rule 27 (comando)
 
 
-State 82
+State 83
 
    26 comando: ESCREVER_SERIAL STRING PONTO_E_VIRGULA .
 
     $default  reduce using rule 26 (comando)
 
 
-State 83
+State 84
 
    29 comando: ENVIAR_HTTP STRING STRING . PONTO_E_VIRGULA
 
-    PONTO_E_VIRGULA  shift, and go to state 116
+    PONTO_E_VIRGULA  shift, and go to state 119
 
 
-State 84
+State 85
 
    13 comando: CONFIGURAR_SERIAL NUM PONTO_E_VIRGULA .
 
     $default  reduce using rule 13 (comando)
 
 
-State 85
+State 86
 
     6 loop: REPITA comandos FIM .
 
     $default  reduce using rule 6 (loop)
 
 
-State 86
+State 87
 
    31 lista_identificadores: lista_identificadores VIRGULA IDENTIFICADOR .
 
     $default  reduce using rule 31 (lista_identificadores)
 
 
-State 87
+State 88
 
    17 comando: IDENTIFICADOR IGUALDADE LER_DIGITAL IDENTIFICADOR . PONTO_E_VIRGULA
 
-    PONTO_E_VIRGULA  shift, and go to state 117
-
-
-State 88
-
-   18 comando: IDENTIFICADOR IGUALDADE LER_ANALOGICO IDENTIFICADOR . PONTO_E_VIRGULA
-
-    PONTO_E_VIRGULA  shift, and go to state 118
+    PONTO_E_VIRGULA  shift, and go to state 120
 
 
 State 89
+
+   18 comando: IDENTIFICADOR IGUALDADE LER_ANALOGICO IDENTIFICADOR . PONTO_E_VIRGULA
+
+    PONTO_E_VIRGULA  shift, and go to state 121
+
+
+State 90
 
    28 comando: IDENTIFICADOR IGUALDADE LER_SERIAL PONTO_E_VIRGULA .
 
     $default  reduce using rule 28 (comando)
 
 
-State 90
-
-   39 expressao: expressao IGUAL . expressao
-
-    IDENTIFICADOR  shift, and go to state 41
-    NUM            shift, and go to state 42
-    STRING         shift, and go to state 43
-    '('            shift, and go to state 44
-
-    expressao  go to state 119
-
-
 State 91
 
-   40 expressao: expressao DIFERENTE . expressao
-
-    IDENTIFICADOR  shift, and go to state 41
-    NUM            shift, and go to state 42
-    STRING         shift, and go to state 43
-    '('            shift, and go to state 44
-
-    expressao  go to state 120
-
-
-State 92
-
-   41 expressao: expressao MENOR . expressao
-
-    IDENTIFICADOR  shift, and go to state 41
-    NUM            shift, and go to state 42
-    STRING         shift, and go to state 43
-    '('            shift, and go to state 44
-
-    expressao  go to state 121
-
-
-State 93
-
-   42 expressao: expressao MAIOR . expressao
+   45 expressao: expressao MODULO . expressao
 
     IDENTIFICADOR  shift, and go to state 41
     NUM            shift, and go to state 42
@@ -1136,9 +1123,9 @@ State 93
     expressao  go to state 122
 
 
-State 94
+State 92
 
-   43 expressao: expressao MENOR_IGUAL . expressao
+   39 expressao: expressao IGUAL . expressao
 
     IDENTIFICADOR  shift, and go to state 41
     NUM            shift, and go to state 42
@@ -1148,9 +1135,9 @@ State 94
     expressao  go to state 123
 
 
-State 95
+State 93
 
-   44 expressao: expressao MAIOR_IGUAL . expressao
+   40 expressao: expressao DIFERENTE . expressao
 
     IDENTIFICADOR  shift, and go to state 41
     NUM            shift, and go to state 42
@@ -1160,65 +1147,113 @@ State 95
     expressao  go to state 124
 
 
+State 94
+
+   41 expressao: expressao MENOR . expressao
+
+    IDENTIFICADOR  shift, and go to state 41
+    NUM            shift, and go to state 42
+    STRING         shift, and go to state 43
+    '('            shift, and go to state 44
+
+    expressao  go to state 125
+
+
+State 95
+
+   42 expressao: expressao MAIOR . expressao
+
+    IDENTIFICADOR  shift, and go to state 41
+    NUM            shift, and go to state 42
+    STRING         shift, and go to state 43
+    '('            shift, and go to state 44
+
+    expressao  go to state 126
+
+
 State 96
+
+   43 expressao: expressao MENOR_IGUAL . expressao
+
+    IDENTIFICADOR  shift, and go to state 41
+    NUM            shift, and go to state 42
+    STRING         shift, and go to state 43
+    '('            shift, and go to state 44
+
+    expressao  go to state 127
+
+
+State 97
+
+   44 expressao: expressao MAIOR_IGUAL . expressao
+
+    IDENTIFICADOR  shift, and go to state 41
+    NUM            shift, and go to state 42
+    STRING         shift, and go to state 43
+    '('            shift, and go to state 44
+
+    expressao  go to state 128
+
+
+State 98
 
     9 comando: IDENTIFICADOR IGUALDADE expressao PONTO_E_VIRGULA .
 
     $default  reduce using rule 9 (comando)
 
 
-State 97
+State 99
 
    10 comando: CONFIGURAR IDENTIFICADOR COMO SAIDA . PONTO_E_VIRGULA
 
-    PONTO_E_VIRGULA  shift, and go to state 125
-
-
-State 98
-
-   11 comando: CONFIGURAR IDENTIFICADOR COMO ENTRADA . PONTO_E_VIRGULA
-
-    PONTO_E_VIRGULA  shift, and go to state 126
-
-
-State 99
-
-   12 comando: CONFIGURAR IDENTIFICADOR COMO ENTRADA_PULLDOWN . PONTO_E_VIRGULA
-
-    PONTO_E_VIRGULA  shift, and go to state 127
+    PONTO_E_VIRGULA  shift, and go to state 129
 
 
 State 100
+
+   11 comando: CONFIGURAR IDENTIFICADOR COMO ENTRADA . PONTO_E_VIRGULA
+
+    PONTO_E_VIRGULA  shift, and go to state 130
+
+
+State 101
+
+   12 comando: CONFIGURAR IDENTIFICADOR COMO ENTRADA_PULLDOWN . PONTO_E_VIRGULA
+
+    PONTO_E_VIRGULA  shift, and go to state 131
+
+
+State 102
 
    23 comando: CONECTAR_WIFI IDENTIFICADOR IDENTIFICADOR PONTO_E_VIRGULA .
 
     $default  reduce using rule 23 (comando)
 
 
-State 101
+State 103
 
    19 comando: CONFIGURAR_PWM IDENTIFICADOR COM FREQUENCIA . NUM RESOLUCAO NUM PONTO_E_VIRGULA
 
-    NUM  shift, and go to state 128
+    NUM  shift, and go to state 132
 
 
-State 102
+State 104
 
    20 comando: AJUSTAR_PWM IDENTIFICADOR COM VALOR . IDENTIFICADOR PONTO_E_VIRGULA
    21        | AJUSTAR_PWM IDENTIFICADOR COM VALOR . NUM PONTO_E_VIRGULA
 
-    IDENTIFICADOR  shift, and go to state 129
-    NUM            shift, and go to state 130
+    IDENTIFICADOR  shift, and go to state 133
+    NUM            shift, and go to state 134
 
 
-State 103
+State 105
 
-   45 expressao: '(' expressao ')' .
+   46 expressao: '(' expressao ')' .
 
-    $default  reduce using rule 45 (expressao)
+    $default  reduce using rule 46 (expressao)
 
 
-State 104
+State 106
 
    35 expressao: expressao . SOMA expressao
    35          | expressao SOMA expressao .
@@ -1231,20 +1266,22 @@ State 104
    42          | expressao . MAIOR expressao
    43          | expressao . MENOR_IGUAL expressao
    44          | expressao . MAIOR_IGUAL expressao
+   45          | expressao . MODULO expressao
 
     MULTIPLICACAO  shift, and go to state 71
     DIVISAO        shift, and go to state 72
-    IGUAL          shift, and go to state 90
-    DIFERENTE      shift, and go to state 91
-    MENOR          shift, and go to state 92
-    MAIOR          shift, and go to state 93
-    MENOR_IGUAL    shift, and go to state 94
-    MAIOR_IGUAL    shift, and go to state 95
+    MODULO         shift, and go to state 91
+    IGUAL          shift, and go to state 92
+    DIFERENTE      shift, and go to state 93
+    MENOR          shift, and go to state 94
+    MAIOR          shift, and go to state 95
+    MENOR_IGUAL    shift, and go to state 96
+    MAIOR_IGUAL    shift, and go to state 97
 
     $default  reduce using rule 35 (expressao)
 
 
-State 105
+State 107
 
    35 expressao: expressao . SOMA expressao
    36          | expressao . SUBTRACAO expressao
@@ -1257,20 +1294,22 @@ State 105
    42          | expressao . MAIOR expressao
    43          | expressao . MENOR_IGUAL expressao
    44          | expressao . MAIOR_IGUAL expressao
+   45          | expressao . MODULO expressao
 
     MULTIPLICACAO  shift, and go to state 71
     DIVISAO        shift, and go to state 72
-    IGUAL          shift, and go to state 90
-    DIFERENTE      shift, and go to state 91
-    MENOR          shift, and go to state 92
-    MAIOR          shift, and go to state 93
-    MENOR_IGUAL    shift, and go to state 94
-    MAIOR_IGUAL    shift, and go to state 95
+    MODULO         shift, and go to state 91
+    IGUAL          shift, and go to state 92
+    DIFERENTE      shift, and go to state 93
+    MENOR          shift, and go to state 94
+    MAIOR          shift, and go to state 95
+    MENOR_IGUAL    shift, and go to state 96
+    MAIOR_IGUAL    shift, and go to state 97
 
     $default  reduce using rule 36 (expressao)
 
 
-State 106
+State 108
 
    35 expressao: expressao . SOMA expressao
    36          | expressao . SUBTRACAO expressao
@@ -1283,18 +1322,19 @@ State 106
    42          | expressao . MAIOR expressao
    43          | expressao . MENOR_IGUAL expressao
    44          | expressao . MAIOR_IGUAL expressao
+   45          | expressao . MODULO expressao
 
-    IGUAL        shift, and go to state 90
-    DIFERENTE    shift, and go to state 91
-    MENOR        shift, and go to state 92
-    MAIOR        shift, and go to state 93
-    MENOR_IGUAL  shift, and go to state 94
-    MAIOR_IGUAL  shift, and go to state 95
+    IGUAL        shift, and go to state 92
+    DIFERENTE    shift, and go to state 93
+    MENOR        shift, and go to state 94
+    MAIOR        shift, and go to state 95
+    MENOR_IGUAL  shift, and go to state 96
+    MAIOR_IGUAL  shift, and go to state 97
 
     $default  reduce using rule 37 (expressao)
 
 
-State 107
+State 109
 
    35 expressao: expressao . SOMA expressao
    36          | expressao . SUBTRACAO expressao
@@ -1307,18 +1347,50 @@ State 107
    42          | expressao . MAIOR expressao
    43          | expressao . MENOR_IGUAL expressao
    44          | expressao . MAIOR_IGUAL expressao
+   45          | expressao . MODULO expressao
 
-    IGUAL        shift, and go to state 90
-    DIFERENTE    shift, and go to state 91
-    MENOR        shift, and go to state 92
-    MAIOR        shift, and go to state 93
-    MENOR_IGUAL  shift, and go to state 94
-    MAIOR_IGUAL  shift, and go to state 95
+    IGUAL        shift, and go to state 92
+    DIFERENTE    shift, and go to state 93
+    MENOR        shift, and go to state 94
+    MAIOR        shift, and go to state 95
+    MENOR_IGUAL  shift, and go to state 96
+    MAIOR_IGUAL  shift, and go to state 97
 
     $default  reduce using rule 38 (expressao)
 
 
-State 108
+State 110
+
+   35 expressao: expressao . SOMA expressao
+   36          | expressao . SUBTRACAO expressao
+   37          | expressao . MULTIPLICACAO expressao
+   38          | expressao . DIVISAO expressao
+   39          | expressao . IGUAL expressao
+   40          | expressao . DIFERENTE expressao
+   41          | expressao . MENOR expressao
+   42          | expressao . MAIOR expressao
+   43          | expressao . MENOR_IGUAL expressao
+   44          | expressao . MAIOR_IGUAL expressao
+   45          | expressao . MODULO expressao
+   45          | expressao MODULO expressao .
+   53 condicao: expressao MODULO expressao .
+
+    IGUAL        shift, and go to state 92
+    DIFERENTE    shift, and go to state 93
+    MENOR        shift, and go to state 94
+    MAIOR        shift, and go to state 95
+    MENOR_IGUAL  shift, and go to state 96
+    MAIOR_IGUAL  shift, and go to state 97
+
+    SOMA           reduce using rule 45 (expressao)
+    SUBTRACAO      reduce using rule 45 (expressao)
+    MULTIPLICACAO  reduce using rule 45 (expressao)
+    DIVISAO        reduce using rule 45 (expressao)
+    MODULO         reduce using rule 45 (expressao)
+    $default       reduce using rule 53 (condicao)
+
+
+State 111
 
    35 expressao: expressao . SOMA expressao
    36          | expressao . SUBTRACAO expressao
@@ -1331,22 +1403,24 @@ State 108
    42          | expressao . MAIOR expressao
    43          | expressao . MENOR_IGUAL expressao
    44          | expressao . MAIOR_IGUAL expressao
-   46 condicao: expressao IGUAL expressao .
+   45          | expressao . MODULO expressao
+   47 condicao: expressao IGUAL expressao .
 
     SOMA           reduce using rule 39 (expressao)
     SUBTRACAO      reduce using rule 39 (expressao)
     MULTIPLICACAO  reduce using rule 39 (expressao)
     DIVISAO        reduce using rule 39 (expressao)
+    MODULO         reduce using rule 39 (expressao)
     IGUAL          reduce using rule 39 (expressao)
     DIFERENTE      reduce using rule 39 (expressao)
     MENOR          reduce using rule 39 (expressao)
     MAIOR          reduce using rule 39 (expressao)
     MENOR_IGUAL    reduce using rule 39 (expressao)
     MAIOR_IGUAL    reduce using rule 39 (expressao)
-    $default       reduce using rule 46 (condicao)
+    $default       reduce using rule 47 (condicao)
 
 
-State 109
+State 112
 
    35 expressao: expressao . SOMA expressao
    36          | expressao . SUBTRACAO expressao
@@ -1359,22 +1433,24 @@ State 109
    42          | expressao . MAIOR expressao
    43          | expressao . MENOR_IGUAL expressao
    44          | expressao . MAIOR_IGUAL expressao
-   47 condicao: expressao DIFERENTE expressao .
+   45          | expressao . MODULO expressao
+   48 condicao: expressao DIFERENTE expressao .
 
     SOMA           reduce using rule 40 (expressao)
     SUBTRACAO      reduce using rule 40 (expressao)
     MULTIPLICACAO  reduce using rule 40 (expressao)
     DIVISAO        reduce using rule 40 (expressao)
+    MODULO         reduce using rule 40 (expressao)
     IGUAL          reduce using rule 40 (expressao)
     DIFERENTE      reduce using rule 40 (expressao)
     MENOR          reduce using rule 40 (expressao)
     MAIOR          reduce using rule 40 (expressao)
     MENOR_IGUAL    reduce using rule 40 (expressao)
     MAIOR_IGUAL    reduce using rule 40 (expressao)
-    $default       reduce using rule 47 (condicao)
+    $default       reduce using rule 48 (condicao)
 
 
-State 110
+State 113
 
    35 expressao: expressao . SOMA expressao
    36          | expressao . SUBTRACAO expressao
@@ -1387,22 +1463,24 @@ State 110
    42          | expressao . MAIOR expressao
    43          | expressao . MENOR_IGUAL expressao
    44          | expressao . MAIOR_IGUAL expressao
-   48 condicao: expressao MENOR expressao .
+   45          | expressao . MODULO expressao
+   49 condicao: expressao MENOR expressao .
 
     SOMA           reduce using rule 41 (expressao)
     SUBTRACAO      reduce using rule 41 (expressao)
     MULTIPLICACAO  reduce using rule 41 (expressao)
     DIVISAO        reduce using rule 41 (expressao)
+    MODULO         reduce using rule 41 (expressao)
     IGUAL          reduce using rule 41 (expressao)
     DIFERENTE      reduce using rule 41 (expressao)
     MENOR          reduce using rule 41 (expressao)
     MAIOR          reduce using rule 41 (expressao)
     MENOR_IGUAL    reduce using rule 41 (expressao)
     MAIOR_IGUAL    reduce using rule 41 (expressao)
-    $default       reduce using rule 48 (condicao)
+    $default       reduce using rule 49 (condicao)
 
 
-State 111
+State 114
 
    35 expressao: expressao . SOMA expressao
    36          | expressao . SUBTRACAO expressao
@@ -1415,22 +1493,24 @@ State 111
    42          | expressao MAIOR expressao .
    43          | expressao . MENOR_IGUAL expressao
    44          | expressao . MAIOR_IGUAL expressao
-   49 condicao: expressao MAIOR expressao .
+   45          | expressao . MODULO expressao
+   50 condicao: expressao MAIOR expressao .
 
     SOMA           reduce using rule 42 (expressao)
     SUBTRACAO      reduce using rule 42 (expressao)
     MULTIPLICACAO  reduce using rule 42 (expressao)
     DIVISAO        reduce using rule 42 (expressao)
+    MODULO         reduce using rule 42 (expressao)
     IGUAL          reduce using rule 42 (expressao)
     DIFERENTE      reduce using rule 42 (expressao)
     MENOR          reduce using rule 42 (expressao)
     MAIOR          reduce using rule 42 (expressao)
     MENOR_IGUAL    reduce using rule 42 (expressao)
     MAIOR_IGUAL    reduce using rule 42 (expressao)
-    $default       reduce using rule 49 (condicao)
+    $default       reduce using rule 50 (condicao)
 
 
-State 112
+State 115
 
    35 expressao: expressao . SOMA expressao
    36          | expressao . SUBTRACAO expressao
@@ -1443,22 +1523,24 @@ State 112
    43          | expressao . MENOR_IGUAL expressao
    43          | expressao MENOR_IGUAL expressao .
    44          | expressao . MAIOR_IGUAL expressao
-   50 condicao: expressao MENOR_IGUAL expressao .
+   45          | expressao . MODULO expressao
+   51 condicao: expressao MENOR_IGUAL expressao .
 
     SOMA           reduce using rule 43 (expressao)
     SUBTRACAO      reduce using rule 43 (expressao)
     MULTIPLICACAO  reduce using rule 43 (expressao)
     DIVISAO        reduce using rule 43 (expressao)
+    MODULO         reduce using rule 43 (expressao)
     IGUAL          reduce using rule 43 (expressao)
     DIFERENTE      reduce using rule 43 (expressao)
     MENOR          reduce using rule 43 (expressao)
     MAIOR          reduce using rule 43 (expressao)
     MENOR_IGUAL    reduce using rule 43 (expressao)
     MAIOR_IGUAL    reduce using rule 43 (expressao)
-    $default       reduce using rule 50 (condicao)
+    $default       reduce using rule 51 (condicao)
 
 
-State 113
+State 116
 
    35 expressao: expressao . SOMA expressao
    36          | expressao . SUBTRACAO expressao
@@ -1471,22 +1553,24 @@ State 113
    43          | expressao . MENOR_IGUAL expressao
    44          | expressao . MAIOR_IGUAL expressao
    44          | expressao MAIOR_IGUAL expressao .
-   51 condicao: expressao MAIOR_IGUAL expressao .
+   45          | expressao . MODULO expressao
+   52 condicao: expressao MAIOR_IGUAL expressao .
 
     SOMA           reduce using rule 44 (expressao)
     SUBTRACAO      reduce using rule 44 (expressao)
     MULTIPLICACAO  reduce using rule 44 (expressao)
     DIVISAO        reduce using rule 44 (expressao)
+    MODULO         reduce using rule 44 (expressao)
     IGUAL          reduce using rule 44 (expressao)
     DIFERENTE      reduce using rule 44 (expressao)
     MENOR          reduce using rule 44 (expressao)
     MAIOR          reduce using rule 44 (expressao)
     MENOR_IGUAL    reduce using rule 44 (expressao)
     MAIOR_IGUAL    reduce using rule 44 (expressao)
-    $default       reduce using rule 51 (condicao)
+    $default       reduce using rule 52 (condicao)
 
 
-State 114
+State 117
 
     8 comandos: comandos . comando
    22 comando: SE condicao ENTAO comandos . SENAO comandos FIM
@@ -1497,12 +1581,12 @@ State 114
     LIGAR              shift, and go to state 16
     DESLIGAR           shift, and go to state 17
     ESPERAR            shift, and go to state 18
-    FIM                shift, and go to state 131
+    FIM                shift, and go to state 135
     CONECTAR_WIFI      shift, and go to state 19
     CONFIGURAR_PWM     shift, and go to state 20
     AJUSTAR_PWM        shift, and go to state 21
     SE                 shift, and go to state 22
-    SENAO              shift, and go to state 132
+    SENAO              shift, and go to state 136
     ENQUANTO           shift, and go to state 23
     ESCREVER_SERIAL    shift, and go to state 24
     ENVIAR_HTTP        shift, and go to state 25
@@ -1511,83 +1595,32 @@ State 114
     comando  go to state 53
 
 
-State 115
+State 118
 
    25 comando: ENQUANTO condicao comandos FIM .
 
     $default  reduce using rule 25 (comando)
 
 
-State 116
+State 119
 
    29 comando: ENVIAR_HTTP STRING STRING PONTO_E_VIRGULA .
 
     $default  reduce using rule 29 (comando)
 
 
-State 117
+State 120
 
    17 comando: IDENTIFICADOR IGUALDADE LER_DIGITAL IDENTIFICADOR PONTO_E_VIRGULA .
 
     $default  reduce using rule 17 (comando)
 
 
-State 118
+State 121
 
    18 comando: IDENTIFICADOR IGUALDADE LER_ANALOGICO IDENTIFICADOR PONTO_E_VIRGULA .
 
     $default  reduce using rule 18 (comando)
-
-
-State 119
-
-   35 expressao: expressao . SOMA expressao
-   36          | expressao . SUBTRACAO expressao
-   37          | expressao . MULTIPLICACAO expressao
-   38          | expressao . DIVISAO expressao
-   39          | expressao . IGUAL expressao
-   39          | expressao IGUAL expressao .
-   40          | expressao . DIFERENTE expressao
-   41          | expressao . MENOR expressao
-   42          | expressao . MAIOR expressao
-   43          | expressao . MENOR_IGUAL expressao
-   44          | expressao . MAIOR_IGUAL expressao
-
-    $default  reduce using rule 39 (expressao)
-
-
-State 120
-
-   35 expressao: expressao . SOMA expressao
-   36          | expressao . SUBTRACAO expressao
-   37          | expressao . MULTIPLICACAO expressao
-   38          | expressao . DIVISAO expressao
-   39          | expressao . IGUAL expressao
-   40          | expressao . DIFERENTE expressao
-   40          | expressao DIFERENTE expressao .
-   41          | expressao . MENOR expressao
-   42          | expressao . MAIOR expressao
-   43          | expressao . MENOR_IGUAL expressao
-   44          | expressao . MAIOR_IGUAL expressao
-
-    $default  reduce using rule 40 (expressao)
-
-
-State 121
-
-   35 expressao: expressao . SOMA expressao
-   36          | expressao . SUBTRACAO expressao
-   37          | expressao . MULTIPLICACAO expressao
-   38          | expressao . DIVISAO expressao
-   39          | expressao . IGUAL expressao
-   40          | expressao . DIFERENTE expressao
-   41          | expressao . MENOR expressao
-   41          | expressao MENOR expressao .
-   42          | expressao . MAIOR expressao
-   43          | expressao . MENOR_IGUAL expressao
-   44          | expressao . MAIOR_IGUAL expressao
-
-    $default  reduce using rule 41 (expressao)
 
 
 State 122
@@ -1600,14 +1633,94 @@ State 122
    40          | expressao . DIFERENTE expressao
    41          | expressao . MENOR expressao
    42          | expressao . MAIOR expressao
+   43          | expressao . MENOR_IGUAL expressao
+   44          | expressao . MAIOR_IGUAL expressao
+   45          | expressao . MODULO expressao
+   45          | expressao MODULO expressao .
+
+    IGUAL        shift, and go to state 92
+    DIFERENTE    shift, and go to state 93
+    MENOR        shift, and go to state 94
+    MAIOR        shift, and go to state 95
+    MENOR_IGUAL  shift, and go to state 96
+    MAIOR_IGUAL  shift, and go to state 97
+
+    $default  reduce using rule 45 (expressao)
+
+
+State 123
+
+   35 expressao: expressao . SOMA expressao
+   36          | expressao . SUBTRACAO expressao
+   37          | expressao . MULTIPLICACAO expressao
+   38          | expressao . DIVISAO expressao
+   39          | expressao . IGUAL expressao
+   39          | expressao IGUAL expressao .
+   40          | expressao . DIFERENTE expressao
+   41          | expressao . MENOR expressao
+   42          | expressao . MAIOR expressao
+   43          | expressao . MENOR_IGUAL expressao
+   44          | expressao . MAIOR_IGUAL expressao
+   45          | expressao . MODULO expressao
+
+    $default  reduce using rule 39 (expressao)
+
+
+State 124
+
+   35 expressao: expressao . SOMA expressao
+   36          | expressao . SUBTRACAO expressao
+   37          | expressao . MULTIPLICACAO expressao
+   38          | expressao . DIVISAO expressao
+   39          | expressao . IGUAL expressao
+   40          | expressao . DIFERENTE expressao
+   40          | expressao DIFERENTE expressao .
+   41          | expressao . MENOR expressao
+   42          | expressao . MAIOR expressao
+   43          | expressao . MENOR_IGUAL expressao
+   44          | expressao . MAIOR_IGUAL expressao
+   45          | expressao . MODULO expressao
+
+    $default  reduce using rule 40 (expressao)
+
+
+State 125
+
+   35 expressao: expressao . SOMA expressao
+   36          | expressao . SUBTRACAO expressao
+   37          | expressao . MULTIPLICACAO expressao
+   38          | expressao . DIVISAO expressao
+   39          | expressao . IGUAL expressao
+   40          | expressao . DIFERENTE expressao
+   41          | expressao . MENOR expressao
+   41          | expressao MENOR expressao .
+   42          | expressao . MAIOR expressao
+   43          | expressao . MENOR_IGUAL expressao
+   44          | expressao . MAIOR_IGUAL expressao
+   45          | expressao . MODULO expressao
+
+    $default  reduce using rule 41 (expressao)
+
+
+State 126
+
+   35 expressao: expressao . SOMA expressao
+   36          | expressao . SUBTRACAO expressao
+   37          | expressao . MULTIPLICACAO expressao
+   38          | expressao . DIVISAO expressao
+   39          | expressao . IGUAL expressao
+   40          | expressao . DIFERENTE expressao
+   41          | expressao . MENOR expressao
+   42          | expressao . MAIOR expressao
    42          | expressao MAIOR expressao .
    43          | expressao . MENOR_IGUAL expressao
    44          | expressao . MAIOR_IGUAL expressao
+   45          | expressao . MODULO expressao
 
     $default  reduce using rule 42 (expressao)
 
 
-State 123
+State 127
 
    35 expressao: expressao . SOMA expressao
    36          | expressao . SUBTRACAO expressao
@@ -1620,11 +1733,12 @@ State 123
    43          | expressao . MENOR_IGUAL expressao
    43          | expressao MENOR_IGUAL expressao .
    44          | expressao . MAIOR_IGUAL expressao
+   45          | expressao . MODULO expressao
 
     $default  reduce using rule 43 (expressao)
 
 
-State 124
+State 128
 
    35 expressao: expressao . SOMA expressao
    36          | expressao . SUBTRACAO expressao
@@ -1637,60 +1751,61 @@ State 124
    43          | expressao . MENOR_IGUAL expressao
    44          | expressao . MAIOR_IGUAL expressao
    44          | expressao MAIOR_IGUAL expressao .
+   45          | expressao . MODULO expressao
 
     $default  reduce using rule 44 (expressao)
 
 
-State 125
+State 129
 
    10 comando: CONFIGURAR IDENTIFICADOR COMO SAIDA PONTO_E_VIRGULA .
 
     $default  reduce using rule 10 (comando)
 
 
-State 126
+State 130
 
    11 comando: CONFIGURAR IDENTIFICADOR COMO ENTRADA PONTO_E_VIRGULA .
 
     $default  reduce using rule 11 (comando)
 
 
-State 127
+State 131
 
    12 comando: CONFIGURAR IDENTIFICADOR COMO ENTRADA_PULLDOWN PONTO_E_VIRGULA .
 
     $default  reduce using rule 12 (comando)
 
 
-State 128
+State 132
 
    19 comando: CONFIGURAR_PWM IDENTIFICADOR COM FREQUENCIA NUM . RESOLUCAO NUM PONTO_E_VIRGULA
 
-    RESOLUCAO  shift, and go to state 133
+    RESOLUCAO  shift, and go to state 137
 
 
-State 129
+State 133
 
    20 comando: AJUSTAR_PWM IDENTIFICADOR COM VALOR IDENTIFICADOR . PONTO_E_VIRGULA
 
-    PONTO_E_VIRGULA  shift, and go to state 134
+    PONTO_E_VIRGULA  shift, and go to state 138
 
 
-State 130
+State 134
 
    21 comando: AJUSTAR_PWM IDENTIFICADOR COM VALOR NUM . PONTO_E_VIRGULA
 
-    PONTO_E_VIRGULA  shift, and go to state 135
+    PONTO_E_VIRGULA  shift, and go to state 139
 
 
-State 131
+State 135
 
    24 comando: SE condicao ENTAO comandos FIM .
 
     $default  reduce using rule 24 (comando)
 
 
-State 132
+State 136
 
    22 comando: SE condicao ENTAO comandos SENAO . comandos FIM
 
@@ -1708,32 +1823,32 @@ State 132
     ENVIAR_HTTP        shift, and go to state 25
     CONFIGURAR_SERIAL  shift, and go to state 26
 
-    comandos  go to state 136
+    comandos  go to state 140
     comando   go to state 28
 
 
-State 133
+State 137
 
    19 comando: CONFIGURAR_PWM IDENTIFICADOR COM FREQUENCIA NUM RESOLUCAO . NUM PONTO_E_VIRGULA
 
-    NUM  shift, and go to state 137
+    NUM  shift, and go to state 141
 
 
-State 134
+State 138
 
    20 comando: AJUSTAR_PWM IDENTIFICADOR COM VALOR IDENTIFICADOR PONTO_E_VIRGULA .
 
     $default  reduce using rule 20 (comando)
 
 
-State 135
+State 139
 
    21 comando: AJUSTAR_PWM IDENTIFICADOR COM VALOR NUM PONTO_E_VIRGULA .
 
     $default  reduce using rule 21 (comando)
 
 
-State 136
+State 140
 
     8 comandos: comandos . comando
    22 comando: SE condicao ENTAO comandos SENAO comandos . FIM
@@ -1743,7 +1858,7 @@ State 136
     LIGAR              shift, and go to state 16
     DESLIGAR           shift, and go to state 17
     ESPERAR            shift, and go to state 18
-    FIM                shift, and go to state 138
+    FIM                shift, and go to state 142
     CONECTAR_WIFI      shift, and go to state 19
     CONFIGURAR_PWM     shift, and go to state 20
     AJUSTAR_PWM        shift, and go to state 21
@@ -1756,21 +1871,21 @@ State 136
     comando  go to state 53
 
 
-State 137
+State 141
 
    19 comando: CONFIGURAR_PWM IDENTIFICADOR COM FREQUENCIA NUM RESOLUCAO NUM . PONTO_E_VIRGULA
 
-    PONTO_E_VIRGULA  shift, and go to state 139
+    PONTO_E_VIRGULA  shift, and go to state 143
 
 
-State 138
+State 142
 
    22 comando: SE condicao ENTAO comandos SENAO comandos FIM .
 
     $default  reduce using rule 22 (comando)
 
 
-State 139
+State 143
 
    19 comando: CONFIGURAR_PWM IDENTIFICADOR COM FREQUENCIA NUM RESOLUCAO NUM PONTO_E_VIRGULA .
 

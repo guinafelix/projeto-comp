@@ -9,5 +9,5 @@ gcc lex.yy.c tradutor.tab.c -o ./tradutor -lfl
 #     ./tradutor "$arquivo"
 # done
 
-./tradutor exemplos/exemplos4.lang
+./tradutor exemplos/exemplo2.lang
 
