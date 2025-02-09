@@ -5,7 +5,9 @@ flex src/tradutor.l
 bison -d -v src/tradutor.y
 gcc lex.yy.c tradutor.tab.c -o ./tradutor -lfl
 
-for arquivo in exemplos/*.lang; do
-    ./tradutor "$arquivo"
-done
+# for arquivo in exemplos/*.lang; do
+#     ./tradutor "$arquivo"
+# done
+
+./tradutor exemplos/exemplos4.lang
 

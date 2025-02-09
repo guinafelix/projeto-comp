@@ -1,4 +1,5 @@
 %{
+#define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -10,16 +11,52 @@ extern FILE *yyin;
 extern int yyparse(void);
 extern int yylineno;
 
+typedef enum {
+    NAO_CONFIGURADO,
+    ENTRADA_PIN,
+    SAIDA_PIN,
+    PWM_PIN
+} TipoConfiguracao;
+
 typedef struct {
     char *nome;
     char *tipo;
     char *valor;
+    TipoConfiguracao configuracao;
 } Variavel;
 
 Variavel tabelaSimbolos[100];
 int numVariaveis = 0;
 
 char* obterTipoVariavel(char *nome);
+
+void configurarPino(char *nome, TipoConfiguracao config) {
+    for (int i = 0; i < numVariaveis; i++) {
+        if (strcmp(tabelaSimbolos[i].nome, nome) == 0) {
+            tabelaSimbolos[i].configuracao = config;
+            return;
+        }
+    }
+}
+
+TipoConfiguracao obterConfiguracao(char *nome) {
+    for (int i = 0; i < numVariaveis; i++) {
+        if (strcmp(tabelaSimbolos[i].nome, nome) == 0) {
+            return tabelaSimbolos[i].configuracao;
+        }
+    }
+    return NAO_CONFIGURADO;
+}
+
+void verificarConfiguracao(char *nome, TipoConfiguracao configRequerida, const char *operacao) {
+    TipoConfiguracao atual = obterConfiguracao(nome);
+    if (atual != configRequerida) {
+        char erro[200];
+        sprintf(erro, "Erro Semântico: '%s' não está configurado corretamente para operação '%s'", 
+                nome, operacao);
+        yyerror(erro);
+    }
+}
 
 void adicionarVariavel(char *nome, char *tipo) {
     while(isspace(*nome)) nome++;
@@ -34,6 +71,7 @@ void adicionarVariavel(char *nome, char *tipo) {
     tabelaSimbolos[numVariaveis].nome = strdup(nome);
     tabelaSimbolos[numVariaveis].tipo = strdup(tipo);
     tabelaSimbolos[numVariaveis].valor = NULL;
+    tabelaSimbolos[numVariaveis].configuracao = NAO_CONFIGURADO;
     numVariaveis++;
 }
 
@@ -47,7 +85,6 @@ void atualizarValorVariavel(char *nome, char *valor) {
 
 char* obterTipoVariavel(char *nome) {
     for (int i = 0; i < numVariaveis; i++) {
-        printf("Comparando: %s com %s\n", tabelaSimbolos[i].nome, nome);
         if (strcmp(tabelaSimbolos[i].nome, nome) == 0) {
             return tabelaSimbolos[i].tipo;
         }
@@ -213,11 +250,13 @@ comando:
     | CONFIGURAR IDENTIFICADOR COMO SAIDA PONTO_E_VIRGULA {
         printf("Parsed pin configuration: %s as output\n", $2);
         verificarUsoVariavel($2);
+        configurarPino($2, ENTRADA_PIN);
         asprintf(&$$, "pinMode(%s, OUTPUT);", $2);
     }
     | CONFIGURAR IDENTIFICADOR COMO ENTRADA PONTO_E_VIRGULA {
         printf("Parsed pin configuration: %s as input\n", $2);
         verificarUsoVariavel($2);
+        configurarPino($2, ENTRADA_PIN);
         asprintf(&$$, "pinMode(%s, INPUT);", $2);
     }
     | CONFIGURAR IDENTIFICADOR COMO ENTRADA_PULLDOWN PONTO_E_VIRGULA {
@@ -232,11 +271,13 @@ comando:
     | LIGAR IDENTIFICADOR PONTO_E_VIRGULA {
         printf("Parsed ligar: %s\n", $2);
         verificarUsoVariavel($2);
+        verificarConfiguracao($2, SAIDA_PIN, "ligar");
         asprintf(&$$, "digitalWrite(%s, HIGH);", $2);
     }
     | DESLIGAR IDENTIFICADOR PONTO_E_VIRGULA {
         printf("Parsed desligar: %s\n", $2);
         verificarUsoVariavel($2);
+        verificarConfiguracao($2, SAIDA_PIN, "desligar");
         asprintf(&$$, "digitalWrite(%s, LOW);", $2);
     }
     | ESPERAR NUM PONTO_E_VIRGULA {
@@ -247,28 +288,33 @@ comando:
         printf("Parsed digital read: %s = digitalRead(%s)\n", $1, $4);
         verificarUsoVariavel($1);
         verificarUsoVariavel($4);
+        verificarConfiguracao($4, ENTRADA_PIN, "lerDigital");
         asprintf(&$$, "%s = digitalRead(%s);", $1, $4);
     }
     | IDENTIFICADOR IGUALDADE LER_ANALOGICO IDENTIFICADOR PONTO_E_VIRGULA {
         printf("Parsed analog read: %s = analogRead(%s)\n", $1, $4);
         verificarUsoVariavel($1);
         verificarUsoVariavel($4);
+        verificarConfiguracao($4, ENTRADA_PIN, "lerAnalogico");
         asprintf(&$$, "%s = analogRead(%s);", $1, $4);
     }
     | CONFIGURAR_PWM IDENTIFICADOR COM FREQUENCIA NUM RESOLUCAO NUM PONTO_E_VIRGULA {
         printf("Parsed PWM configuration: %s with frequency %d and resolution %d\n", $2, $5, $7);
         verificarUsoVariavel($2);
+        configurarPino($2, PWM_PIN);
         asprintf(&$$, "ledcAttach(%s, %d, %d);", $2, $5, $7);
     }
     | AJUSTAR_PWM IDENTIFICADOR COM VALOR IDENTIFICADOR PONTO_E_VIRGULA {
         printf("Parsed PWM adjustment: %s with value %s\n", $2, $5);
         verificarUsoVariavel($2);
         verificarUsoVariavel($5);
+        verificarConfiguracao($2, PWM_PIN, "ajustarPWM");
         asprintf(&$$, "ledcWrite(%s, %s);", $2, $5);
     }
     | AJUSTAR_PWM IDENTIFICADOR COM VALOR NUM PONTO_E_VIRGULA {
         printf("Parsed PWM adjustment: %s with value %d\n", $2, $5);
         verificarUsoVariavel($2);
+        verificarConfiguracao($2, PWM_PIN, "ajustarPWM");
         asprintf(&$$, "ledcWrite(0, %d);", $5);
     }
     | SE condicao ENTAO comandos SENAO comandos FIM {

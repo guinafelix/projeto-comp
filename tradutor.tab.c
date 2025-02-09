@@ -68,6 +68,7 @@
 /* First part of user prologue.  */
 #line 1 "src/tradutor.y"
 
+#define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -79,16 +80,52 @@ extern FILE *yyin;
 extern int yyparse(void);
 extern int yylineno;
 
+typedef enum {
+    NAO_CONFIGURADO,
+    ENTRADA_PIN,
+    SAIDA_PIN,
+    PWM_PIN
+} TipoConfiguracao;
+
 typedef struct {
     char *nome;
     char *tipo;
     char *valor;
+    TipoConfiguracao configuracao;
 } Variavel;
 
 Variavel tabelaSimbolos[100];
 int numVariaveis = 0;
 
 char* obterTipoVariavel(char *nome);
+
+void configurarPino(char *nome, TipoConfiguracao config) {
+    for (int i = 0; i < numVariaveis; i++) {
+        if (strcmp(tabelaSimbolos[i].nome, nome) == 0) {
+            tabelaSimbolos[i].configuracao = config;
+            return;
+        }
+    }
+}
+
+TipoConfiguracao obterConfiguracao(char *nome) {
+    for (int i = 0; i < numVariaveis; i++) {
+        if (strcmp(tabelaSimbolos[i].nome, nome) == 0) {
+            return tabelaSimbolos[i].configuracao;
+        }
+    }
+    return NAO_CONFIGURADO;
+}
+
+void verificarConfiguracao(char *nome, TipoConfiguracao configRequerida, const char *operacao) {
+    TipoConfiguracao atual = obterConfiguracao(nome);
+    if (atual != configRequerida) {
+        char erro[200];
+        sprintf(erro, "Erro Semântico: '%s' não está configurado corretamente para operação '%s'", 
+                nome, operacao);
+        yyerror(erro);
+    }
+}
 
 void adicionarVariavel(char *nome, char *tipo) {
     while(isspace(*nome)) nome++;
@@ -103,6 +140,7 @@ void adicionarVariavel(char *nome, char *tipo) {
     tabelaSimbolos[numVariaveis].nome = strdup(nome);
     tabelaSimbolos[numVariaveis].tipo = strdup(tipo);
     tabelaSimbolos[numVariaveis].valor = NULL;
+    tabelaSimbolos[numVariaveis].configuracao = NAO_CONFIGURADO;
     numVariaveis++;
 }
 
@@ -116,7 +154,6 @@ void atualizarValorVariavel(char *nome, char *valor) {
 
 char* obterTipoVariavel(char *nome) {
     for (int i = 0; i < numVariaveis; i++) {
-        printf("Comparando: %s com %s\n", tabelaSimbolos[i].nome, nome);
         if (strcmp(tabelaSimbolos[i].nome, nome) == 0) {
             return tabelaSimbolos[i].tipo;
         }
@@ -151,7 +188,7 @@ void verificarUsoVariavel(char *nome) {
     }
 }
 
-#line 155 "tradutor.tab.c"
+#line 192 "tradutor.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -255,14 +292,14 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 87 "src/tradutor.y"
+#line 124 "src/tradutor.y"
 
     char *texto;
     int num;
     int inteiro;
     char *identificador;
 
-#line 266 "tradutor.tab.c"
+#line 303 "tradutor.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -642,12 +679,12 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,   119,   119,   133,   137,   144,   177,   184,   191,   195,
-     201,   213,   218,   223,   228,   232,   237,   242,   246,   252,
-     258,   263,   269,   274,   278,   284,   288,   292,   296,   301,
-     306,   313,   317,   324,   328,   333,   336,   339,   342,   345,
-     348,   351,   354,   357,   360,   363,   366,   372,   375,   378,
-     381,   384,   387,   393,   396,   399
+       0,   156,   156,   170,   174,   181,   214,   221,   228,   232,
+     238,   250,   256,   262,   267,   271,   277,   283,   287,   294,
+     301,   307,   314,   320,   324,   330,   334,   338,   342,   347,
+     352,   359,   363,   370,   374,   379,   382,   385,   388,   391,
+     394,   397,   400,   403,   406,   409,   412,   418,   421,   424,
+     427,   430,   433,   439,   442,   445
 };
 #endif
 
@@ -1567,7 +1604,7 @@ yyreduce:
   switch (yyn)
     {
   case 2:
-#line 119 "src/tradutor.y"
+#line 156 "src/tradutor.y"
                                   {
         printf("Parsed program\n");
         geraCodigo("#include <Arduino.h>\n#include <WiFi.h>\n");
@@ -1579,29 +1616,29 @@ yyreduce:
         geraCodigo((yyvsp[0].texto));
         geraCodigo("}");
     }
-#line 1583 "tradutor.tab.c"
+#line 1620 "tradutor.tab.c"
     break;
 
   case 3:
-#line 133 "src/tradutor.y"
+#line 170 "src/tradutor.y"
                {
         printf("Parsed single declaracao\n");
         (yyval.texto) = (yyvsp[0].texto);
     }
-#line 1592 "tradutor.tab.c"
+#line 1629 "tradutor.tab.c"
     break;
 
   case 4:
-#line 137 "src/tradutor.y"
+#line 174 "src/tradutor.y"
                              {
         printf("Parsed multiple declaracoes\n");
         asprintf(&(yyval.texto), "%s\n%s", (yyvsp[-1].texto), (yyvsp[0].texto));
     }
-#line 1601 "tradutor.tab.c"
+#line 1638 "tradutor.tab.c"
     break;
 
   case 5:
-#line 144 "src/tradutor.y"
+#line 181 "src/tradutor.y"
                                                                           {
         printf("Parsed variable declaration: %s %s\n", (yyvsp[-3].texto), (yyvsp[-1].texto));
 
@@ -1633,47 +1670,47 @@ yyreduce:
         free(copiaLista);
         free(variaveisDeclaradas);
     }
-#line 1637 "tradutor.tab.c"
+#line 1674 "tradutor.tab.c"
     break;
 
   case 6:
-#line 177 "src/tradutor.y"
+#line 214 "src/tradutor.y"
                         {
         printf("Parsed configuracao\n");
         (yyval.texto) = strdup((yyvsp[-1].texto));
     }
-#line 1646 "tradutor.tab.c"
+#line 1683 "tradutor.tab.c"
     break;
 
   case 7:
-#line 184 "src/tradutor.y"
+#line 221 "src/tradutor.y"
                         {
         printf("Parsed loop\n");
         (yyval.texto) = strdup((yyvsp[-1].texto));
     }
-#line 1655 "tradutor.tab.c"
+#line 1692 "tradutor.tab.c"
     break;
 
   case 8:
-#line 191 "src/tradutor.y"
+#line 228 "src/tradutor.y"
             {
         printf("Parsed single comando\n");
         (yyval.texto) = (yyvsp[0].texto);
     }
-#line 1664 "tradutor.tab.c"
+#line 1701 "tradutor.tab.c"
     break;
 
   case 9:
-#line 195 "src/tradutor.y"
+#line 232 "src/tradutor.y"
                        {
         printf("Parsed multiple comandos\n");
         asprintf(&(yyval.texto), "%s\n%s", (yyvsp[-1].texto), (yyvsp[0].texto));
     }
-#line 1673 "tradutor.tab.c"
+#line 1710 "tradutor.tab.c"
     break;
 
   case 10:
-#line 201 "src/tradutor.y"
+#line 238 "src/tradutor.y"
                                                       {
         printf("Parsed assignment: %s = %s\n", (yyvsp[-3].texto), (yyvsp[-1].texto));
         verificarUsoVariavel((yyvsp[-3].texto));
@@ -1686,413 +1723,422 @@ yyreduce:
             asprintf(&(yyval.texto), "%s = %s;", (yyvsp[-3].texto), (yyvsp[-1].texto));
         }
     }
-#line 1690 "tradutor.tab.c"
+#line 1727 "tradutor.tab.c"
     break;
 
   case 11:
-#line 213 "src/tradutor.y"
+#line 250 "src/tradutor.y"
                                                           {
         printf("Parsed pin configuration: %s as output\n", (yyvsp[-3].texto));
         verificarUsoVariavel((yyvsp[-3].texto));
+        configurarPino((yyvsp[-3].texto), ENTRADA_PIN);
         asprintf(&(yyval.texto), "pinMode(%s, OUTPUT);", (yyvsp[-3].texto));
     }
-#line 1700 "tradutor.tab.c"
+#line 1738 "tradutor.tab.c"
     break;
 
   case 12:
-#line 218 "src/tradutor.y"
+#line 256 "src/tradutor.y"
                                                             {
         printf("Parsed pin configuration: %s as input\n", (yyvsp[-3].texto));
         verificarUsoVariavel((yyvsp[-3].texto));
+        configurarPino((yyvsp[-3].texto), ENTRADA_PIN);
         asprintf(&(yyval.texto), "pinMode(%s, INPUT);", (yyvsp[-3].texto));
     }
-#line 1710 "tradutor.tab.c"
+#line 1749 "tradutor.tab.c"
     break;
 
   case 13:
-#line 223 "src/tradutor.y"
+#line 262 "src/tradutor.y"
                                                                      {
         printf("Parsed pin configuration: %s as input_pulldown\n", (yyvsp[-3].texto));
         verificarUsoVariavel((yyvsp[-3].texto));
         asprintf(&(yyval.texto), "pinMode(%s, INPUT_PULLDOWN);", (yyvsp[-3].texto));
     }
-#line 1720 "tradutor.tab.c"
+#line 1759 "tradutor.tab.c"
     break;
 
   case 14:
-#line 228 "src/tradutor.y"
+#line 267 "src/tradutor.y"
                                             {
       printf("Parsed serial configuration: baud rate %d\n", (yyvsp[-1].num));
       asprintf(&(yyval.texto), "Serial.begin(%d);", (yyvsp[-1].num));
     }
-#line 1729 "tradutor.tab.c"
+#line 1768 "tradutor.tab.c"
     break;
 
   case 15:
-#line 232 "src/tradutor.y"
+#line 271 "src/tradutor.y"
                                           {
         printf("Parsed ligar: %s\n", (yyvsp[-1].texto));
         verificarUsoVariavel((yyvsp[-1].texto));
+        verificarConfiguracao((yyvsp[-1].texto), SAIDA_PIN, "ligar");
         asprintf(&(yyval.texto), "digitalWrite(%s, HIGH);", (yyvsp[-1].texto));
     }
-#line 1739 "tradutor.tab.c"
+#line 1779 "tradutor.tab.c"
     break;
 
   case 16:
-#line 237 "src/tradutor.y"
+#line 277 "src/tradutor.y"
                                              {
         printf("Parsed desligar: %s\n", (yyvsp[-1].texto));
         verificarUsoVariavel((yyvsp[-1].texto));
+        verificarConfiguracao((yyvsp[-1].texto), SAIDA_PIN, "desligar");
         asprintf(&(yyval.texto), "digitalWrite(%s, LOW);", (yyvsp[-1].texto));
-    }
-#line 1749 "tradutor.tab.c"
-    break;
-
-  case 17:
-#line 242 "src/tradutor.y"
-                                  {
-        printf("Parsed esperar: %d\n", (yyvsp[-1].num));
-        asprintf(&(yyval.texto), "delay(%d);", (yyvsp[-1].num));
-    }
-#line 1758 "tradutor.tab.c"
-    break;
-
-  case 18:
-#line 246 "src/tradutor.y"
-                                                                        {
-        printf("Parsed digital read: %s = digitalRead(%s)\n", (yyvsp[-4].texto), (yyvsp[-1].texto));
-        verificarUsoVariavel((yyvsp[-4].texto));
-        verificarUsoVariavel((yyvsp[-1].texto));
-        asprintf(&(yyval.texto), "%s = digitalRead(%s);", (yyvsp[-4].texto), (yyvsp[-1].texto));
-    }
-#line 1769 "tradutor.tab.c"
-    break;
-
-  case 19:
-#line 252 "src/tradutor.y"
-                                                                          {
-        printf("Parsed analog read: %s = analogRead(%s)\n", (yyvsp[-4].texto), (yyvsp[-1].texto));
-        verificarUsoVariavel((yyvsp[-4].texto));
-        verificarUsoVariavel((yyvsp[-1].texto));
-        asprintf(&(yyval.texto), "%s = analogRead(%s);", (yyvsp[-4].texto), (yyvsp[-1].texto));
-    }
-#line 1780 "tradutor.tab.c"
-    break;
-
-  case 20:
-#line 258 "src/tradutor.y"
-                                                                                    {
-        printf("Parsed PWM configuration: %s with frequency %d and resolution %d\n", (yyvsp[-6].texto), (yyvsp[-3].num), (yyvsp[-1].num));
-        verificarUsoVariavel((yyvsp[-6].texto));
-        asprintf(&(yyval.texto), "ledcAttach(%s, %d, %d);", (yyvsp[-6].texto), (yyvsp[-3].num), (yyvsp[-1].num));
     }
 #line 1790 "tradutor.tab.c"
     break;
 
-  case 21:
-#line 263 "src/tradutor.y"
-                                                                        {
-        printf("Parsed PWM adjustment: %s with value %s\n", (yyvsp[-4].texto), (yyvsp[-1].texto));
-        verificarUsoVariavel((yyvsp[-4].texto));
-        verificarUsoVariavel((yyvsp[-1].texto));
-        asprintf(&(yyval.texto), "ledcWrite(%s, %s);", (yyvsp[-4].texto), (yyvsp[-1].texto));
+  case 17:
+#line 283 "src/tradutor.y"
+                                  {
+        printf("Parsed esperar: %d\n", (yyvsp[-1].num));
+        asprintf(&(yyval.texto), "delay(%d);", (yyvsp[-1].num));
     }
-#line 1801 "tradutor.tab.c"
+#line 1799 "tradutor.tab.c"
     break;
 
-  case 22:
-#line 269 "src/tradutor.y"
-                                                              {
-        printf("Parsed PWM adjustment: %s with value %d\n", (yyvsp[-4].texto), (yyvsp[-1].num));
+  case 18:
+#line 287 "src/tradutor.y"
+                                                                        {
+        printf("Parsed digital read: %s = digitalRead(%s)\n", (yyvsp[-4].texto), (yyvsp[-1].texto));
         verificarUsoVariavel((yyvsp[-4].texto));
-        asprintf(&(yyval.texto), "ledcWrite(0, %d);", (yyvsp[-1].num));
+        verificarUsoVariavel((yyvsp[-1].texto));
+        verificarConfiguracao((yyvsp[-1].texto), ENTRADA_PIN, "lerDigital");
+        asprintf(&(yyval.texto), "%s = digitalRead(%s);", (yyvsp[-4].texto), (yyvsp[-1].texto));
     }
 #line 1811 "tradutor.tab.c"
     break;
 
+  case 19:
+#line 294 "src/tradutor.y"
+                                                                          {
+        printf("Parsed analog read: %s = analogRead(%s)\n", (yyvsp[-4].texto), (yyvsp[-1].texto));
+        verificarUsoVariavel((yyvsp[-4].texto));
+        verificarUsoVariavel((yyvsp[-1].texto));
+        verificarConfiguracao((yyvsp[-1].texto), ENTRADA_PIN, "lerAnalogico");
+        asprintf(&(yyval.texto), "%s = analogRead(%s);", (yyvsp[-4].texto), (yyvsp[-1].texto));
+    }
+#line 1823 "tradutor.tab.c"
+    break;
+
+  case 20:
+#line 301 "src/tradutor.y"
+                                                                                    {
+        printf("Parsed PWM configuration: %s with frequency %d and resolution %d\n", (yyvsp[-6].texto), (yyvsp[-3].num), (yyvsp[-1].num));
+        verificarUsoVariavel((yyvsp[-6].texto));
+        configurarPino((yyvsp[-6].texto), PWM_PIN);
+        asprintf(&(yyval.texto), "ledcAttach(%s, %d, %d);", (yyvsp[-6].texto), (yyvsp[-3].num), (yyvsp[-1].num));
+    }
+#line 1834 "tradutor.tab.c"
+    break;
+
+  case 21:
+#line 307 "src/tradutor.y"
+                                                                        {
+        printf("Parsed PWM adjustment: %s with value %s\n", (yyvsp[-4].texto), (yyvsp[-1].texto));
+        verificarUsoVariavel((yyvsp[-4].texto));
+        verificarUsoVariavel((yyvsp[-1].texto));
+        verificarConfiguracao((yyvsp[-4].texto), PWM_PIN, "ajustarPWM");
+        asprintf(&(yyval.texto), "ledcWrite(%s, %s);", (yyvsp[-4].texto), (yyvsp[-1].texto));
+    }
+#line 1846 "tradutor.tab.c"
+    break;
+
+  case 22:
+#line 314 "src/tradutor.y"
+                                                              {
+        printf("Parsed PWM adjustment: %s with value %d\n", (yyvsp[-4].texto), (yyvsp[-1].num));
+        verificarUsoVariavel((yyvsp[-4].texto));
+        verificarConfiguracao((yyvsp[-4].texto), PWM_PIN, "ajustarPWM");
+        asprintf(&(yyval.texto), "ledcWrite(0, %d);", (yyvsp[-1].num));
+    }
+#line 1857 "tradutor.tab.c"
+    break;
+
   case 23:
-#line 274 "src/tradutor.y"
+#line 320 "src/tradutor.y"
                                                     {
         printf("Parsed conditional (if-else)\n");
         asprintf(&(yyval.texto), "if (%s) {\n%s\n} else {\n%s\n}", (yyvsp[-5].texto), (yyvsp[-3].texto), (yyvsp[-1].texto));
     }
-#line 1820 "tradutor.tab.c"
+#line 1866 "tradutor.tab.c"
     break;
 
   case 24:
-#line 278 "src/tradutor.y"
+#line 324 "src/tradutor.y"
                                                                 {
         printf("Parsed wifi connection: %s %s\n", (yyvsp[-2].texto), (yyvsp[-1].texto));
         verificarUsoVariavel((yyvsp[-2].texto));
         verificarUsoVariavel((yyvsp[-1].texto));
         asprintf(&(yyval.texto), "WiFi.begin(%s.c_str(), %s.c_str());\nwhile (WiFi.status() != WL_CONNECTED) {\ndelay(500);\nSerial.println(\"Conectando ao WiFi...\");\n}\nSerial.println(\"Conectado ao WiFi!\");\n", (yyvsp[-2].texto), (yyvsp[-1].texto));
     }
-#line 1831 "tradutor.tab.c"
+#line 1877 "tradutor.tab.c"
     break;
 
   case 25:
-#line 284 "src/tradutor.y"
+#line 330 "src/tradutor.y"
                                      {
         printf("Parsed conditional (if)\n");
         asprintf(&(yyval.texto), "if (%s) {\n%s\n}", (yyvsp[-3].texto), (yyvsp[-1].texto));
     }
-#line 1840 "tradutor.tab.c"
+#line 1886 "tradutor.tab.c"
     break;
 
   case 26:
-#line 288 "src/tradutor.y"
+#line 334 "src/tradutor.y"
                                      {
         printf("Parsed while loop\n");
         asprintf(&(yyval.texto), "while (%s) {\n%s\n}", (yyvsp[-2].texto), (yyvsp[-1].texto));
     }
-#line 1849 "tradutor.tab.c"
+#line 1895 "tradutor.tab.c"
     break;
 
   case 27:
-#line 292 "src/tradutor.y"
+#line 338 "src/tradutor.y"
                                              {
         printf("Comando de escrever na Serial encontrado: %s\n", (yyvsp[-1].texto));
         asprintf(&(yyval.texto), "Serial.println(%s);", (yyvsp[-1].texto));
     }
-#line 1858 "tradutor.tab.c"
+#line 1904 "tradutor.tab.c"
     break;
 
   case 28:
-#line 296 "src/tradutor.y"
+#line 342 "src/tradutor.y"
                                                     {
       printf("Comando de escrever identificador na Serial encontrado: %s\n", (yyvsp[-1].texto));
       verificarUsoVariavel((yyvsp[-1].texto));
       asprintf(&(yyval.texto), "Serial.println(%s);", (yyvsp[-1].texto));
     }
-#line 1868 "tradutor.tab.c"
+#line 1914 "tradutor.tab.c"
     break;
 
   case 29:
-#line 301 "src/tradutor.y"
+#line 347 "src/tradutor.y"
                                                          {
         printf("Comando de lerSerial encontrado: %s\n", (yyvsp[-3].texto));
         verificarUsoVariavel((yyvsp[-3].texto));
         asprintf(&(yyval.texto), "%s = Serial.readString();", (yyvsp[-3].texto)); 
     }
-#line 1878 "tradutor.tab.c"
+#line 1924 "tradutor.tab.c"
     break;
 
   case 30:
-#line 306 "src/tradutor.y"
+#line 352 "src/tradutor.y"
                                                 {
         printf("Comando enviarHttp encontrado: URL = %s, Dados = %s\n", (yyvsp[-2].texto), (yyvsp[-1].texto));
         asprintf(&(yyval.texto), "HttpClient http;\nhttp.begin(%s);\nhttp.addHeader(\"Content-Type\", \"application/x-www-form-urlencoded\");\nhttp.POST(%s);\nhttp.end();", (yyvsp[-2].texto), (yyvsp[-1].texto));
     }
-#line 1887 "tradutor.tab.c"
+#line 1933 "tradutor.tab.c"
     break;
 
   case 31:
-#line 313 "src/tradutor.y"
+#line 359 "src/tradutor.y"
                   {
         printf("Parsed identifier: %s\n", (yyvsp[0].texto));
         (yyval.texto) = strdup((yyvsp[0].texto));
     }
-#line 1896 "tradutor.tab.c"
+#line 1942 "tradutor.tab.c"
     break;
 
   case 32:
-#line 317 "src/tradutor.y"
+#line 363 "src/tradutor.y"
                                                   {
         printf("Parsed identifier: %s\n", (yyvsp[0].texto));
         asprintf(&(yyval.texto), "%s, %s", (yyvsp[-2].texto), (yyvsp[0].texto));
     }
-#line 1905 "tradutor.tab.c"
+#line 1951 "tradutor.tab.c"
     break;
 
   case 33:
-#line 324 "src/tradutor.y"
+#line 370 "src/tradutor.y"
                   {
         verificarUsoVariavel((yyvsp[0].texto));
         (yyval.texto) = (yyvsp[0].texto);
     }
-#line 1914 "tradutor.tab.c"
+#line 1960 "tradutor.tab.c"
     break;
 
   case 34:
-#line 328 "src/tradutor.y"
+#line 374 "src/tradutor.y"
           {
         char numStr[20];
         sprintf(numStr, "%d", (yyvsp[0].num));
         (yyval.texto) = strdup(numStr);
     }
-#line 1924 "tradutor.tab.c"
+#line 1970 "tradutor.tab.c"
     break;
 
   case 35:
-#line 333 "src/tradutor.y"
+#line 379 "src/tradutor.y"
              {
         (yyval.texto) = (yyvsp[0].texto);
     }
-#line 1932 "tradutor.tab.c"
+#line 1978 "tradutor.tab.c"
     break;
 
   case 36:
-#line 336 "src/tradutor.y"
+#line 382 "src/tradutor.y"
                                {
         asprintf(&(yyval.texto), "%s + %s", (yyvsp[-2].texto), (yyvsp[0].texto));
     }
-#line 1940 "tradutor.tab.c"
+#line 1986 "tradutor.tab.c"
     break;
 
   case 37:
-#line 339 "src/tradutor.y"
+#line 385 "src/tradutor.y"
                                     {
         asprintf(&(yyval.texto), "%s - %s", (yyvsp[-2].texto), (yyvsp[0].texto));
     }
-#line 1948 "tradutor.tab.c"
+#line 1994 "tradutor.tab.c"
     break;
 
   case 38:
-#line 342 "src/tradutor.y"
+#line 388 "src/tradutor.y"
                                         {
         asprintf(&(yyval.texto), "%s * %s", (yyvsp[-2].texto), (yyvsp[0].texto));
     }
-#line 1956 "tradutor.tab.c"
+#line 2002 "tradutor.tab.c"
     break;
 
   case 39:
-#line 345 "src/tradutor.y"
+#line 391 "src/tradutor.y"
                                   {
         asprintf(&(yyval.texto), "%s / %s", (yyvsp[-2].texto), (yyvsp[0].texto));
     }
-#line 1964 "tradutor.tab.c"
+#line 2010 "tradutor.tab.c"
     break;
 
   case 40:
-#line 348 "src/tradutor.y"
+#line 394 "src/tradutor.y"
                                 {
         asprintf(&(yyval.texto), "%s == %s", (yyvsp[-2].texto), (yyvsp[0].texto));
     }
-#line 1972 "tradutor.tab.c"
+#line 2018 "tradutor.tab.c"
     break;
 
   case 41:
-#line 351 "src/tradutor.y"
+#line 397 "src/tradutor.y"
                                     {
         asprintf(&(yyval.texto), "%s != %s", (yyvsp[-2].texto), (yyvsp[0].texto));
     }
-#line 1980 "tradutor.tab.c"
+#line 2026 "tradutor.tab.c"
     break;
 
   case 42:
-#line 354 "src/tradutor.y"
+#line 400 "src/tradutor.y"
                                 {
         asprintf(&(yyval.texto), "%s < %s", (yyvsp[-2].texto), (yyvsp[0].texto));
     }
-#line 1988 "tradutor.tab.c"
+#line 2034 "tradutor.tab.c"
     break;
 
   case 43:
-#line 357 "src/tradutor.y"
+#line 403 "src/tradutor.y"
                                 {
         asprintf(&(yyval.texto), "%s > %s", (yyvsp[-2].texto), (yyvsp[0].texto));
     }
-#line 1996 "tradutor.tab.c"
+#line 2042 "tradutor.tab.c"
     break;
 
   case 44:
-#line 360 "src/tradutor.y"
+#line 406 "src/tradutor.y"
                                       {
         asprintf(&(yyval.texto), "%s <= %s", (yyvsp[-2].texto), (yyvsp[0].texto));
     }
-#line 2004 "tradutor.tab.c"
+#line 2050 "tradutor.tab.c"
     break;
 
   case 45:
-#line 363 "src/tradutor.y"
+#line 409 "src/tradutor.y"
                                       {
         asprintf(&(yyval.texto), "%s >= %s", (yyvsp[-2].texto), (yyvsp[0].texto));
     }
-#line 2012 "tradutor.tab.c"
+#line 2058 "tradutor.tab.c"
     break;
 
   case 46:
-#line 366 "src/tradutor.y"
+#line 412 "src/tradutor.y"
                         {
         (yyval.texto) = (yyvsp[-1].texto);
     }
-#line 2020 "tradutor.tab.c"
+#line 2066 "tradutor.tab.c"
     break;
 
   case 47:
-#line 372 "src/tradutor.y"
+#line 418 "src/tradutor.y"
                               {
         asprintf(&(yyval.texto), "%s == %s", (yyvsp[-2].texto), (yyvsp[0].texto));
     }
-#line 2028 "tradutor.tab.c"
+#line 2074 "tradutor.tab.c"
     break;
 
   case 48:
-#line 375 "src/tradutor.y"
+#line 421 "src/tradutor.y"
                                     {
         asprintf(&(yyval.texto), "%s != %s", (yyvsp[-2].texto), (yyvsp[0].texto));
     }
-#line 2036 "tradutor.tab.c"
+#line 2082 "tradutor.tab.c"
     break;
 
   case 49:
-#line 378 "src/tradutor.y"
+#line 424 "src/tradutor.y"
                                 {
         asprintf(&(yyval.texto), "%s < %s", (yyvsp[-2].texto), (yyvsp[0].texto));
     }
-#line 2044 "tradutor.tab.c"
+#line 2090 "tradutor.tab.c"
     break;
 
   case 50:
-#line 381 "src/tradutor.y"
+#line 427 "src/tradutor.y"
                                 {
         asprintf(&(yyval.texto), "%s > %s", (yyvsp[-2].texto), (yyvsp[0].texto));
     }
-#line 2052 "tradutor.tab.c"
+#line 2098 "tradutor.tab.c"
     break;
 
   case 51:
-#line 384 "src/tradutor.y"
+#line 430 "src/tradutor.y"
                                       {
         asprintf(&(yyval.texto), "%s <= %s", (yyvsp[-2].texto), (yyvsp[0].texto));
     }
-#line 2060 "tradutor.tab.c"
+#line 2106 "tradutor.tab.c"
     break;
 
   case 52:
-#line 387 "src/tradutor.y"
+#line 433 "src/tradutor.y"
                                       {
         asprintf(&(yyval.texto), "%s >= %s", (yyvsp[-2].texto), (yyvsp[0].texto));
     }
-#line 2068 "tradutor.tab.c"
+#line 2114 "tradutor.tab.c"
     break;
 
   case 53:
-#line 393 "src/tradutor.y"
+#line 439 "src/tradutor.y"
             {
         (yyval.texto) = "int";
     }
-#line 2076 "tradutor.tab.c"
+#line 2122 "tradutor.tab.c"
     break;
 
   case 54:
-#line 396 "src/tradutor.y"
+#line 442 "src/tradutor.y"
                {
         (yyval.texto) = "bool";
     }
-#line 2084 "tradutor.tab.c"
+#line 2130 "tradutor.tab.c"
     break;
 
   case 55:
-#line 399 "src/tradutor.y"
+#line 445 "src/tradutor.y"
             {
         (yyval.texto) = "String";
     }
-#line 2092 "tradutor.tab.c"
+#line 2138 "tradutor.tab.c"
     break;
 
 
-#line 2096 "tradutor.tab.c"
+#line 2142 "tradutor.tab.c"
 
       default: break;
     }
@@ -2324,7 +2370,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 404 "src/tradutor.y"
+#line 450 "src/tradutor.y"
 
 
 void yyerror(const char *s) {
