@@ -50,6 +50,7 @@
 "/"                   { printf("Token DIVISAO encontrado\n"); return DIVISAO; }
 ","                   { printf("Token VIRGULA encontrado\n"); return VIRGULA; }
 "="                   { printf("Token IGUALDADE encontrado\n"); return IGUALDADE; }
+"\n"                  { yylineno++; }
 ";"                   { printf("Token PONTO_VIRGULA encontrado\n"); return PONTO_E_VIRGULA; }
 [0-9]+                { printf("Token NUM encontrado: %s\n", yytext); yylval.inteiro = atoi(yytext); return NUM; }
 \"[^\"]*\"            { printf("Token STRING encontrado: %s\n", yytext); yylval.texto = strdup(yytext); return STRING; }

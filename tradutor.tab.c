@@ -2374,7 +2374,9 @@ yyreturn:
 
 
 void yyerror(const char *s) {
-    fprintf(stderr, "Error: %s at line %d\n", s, yylineno);
+    extern int yylineno;  
+    extern char *yytext; 
+    fprintf(stderr, "Erro na linha %d: %s\n", yylineno, s);
 }
 
 char nomeArquivoSaida[100];
@@ -2387,13 +2389,13 @@ void geraNomeArquivoSaida(const char *nomeEntrada) {
     } else {
         strcat(nomeArquivoSaida, ".cpp");
     }
-    printf("Nome do arquivo de saída: %s\n", nomeArquivoSaida); // Linha de depuração
+    printf("Nome do arquivo de saída: %s\n", nomeArquivoSaida); 
 }
 
 void geraCodigo(const char *codigo) {
     FILE *arquivo = fopen(nomeArquivoSaida, "a");
     if (arquivo == NULL) {
-        fprintf(stderr, "Não foi possível abrir o arquivo %s.\n", nomeArquivoSaida); // Linha de depuração
+        fprintf(stderr, "Não foi possível abrir o arquivo %s.\n", nomeArquivoSaida);
         exit(1);
     }
     fprintf(arquivo, "%s\n", codigo);

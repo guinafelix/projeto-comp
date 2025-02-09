@@ -351,8 +351,8 @@ static void yynoreturn yy_fatal_error ( const char* msg  );
 	(yy_hold_char) = *yy_cp; \
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
-#define YY_NUM_RULES 52
-#define YY_END_OF_BUFFER 53
+#define YY_NUM_RULES 53
+#define YY_END_OF_BUFFER 54
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -362,30 +362,30 @@ struct yy_trans_info
 	};
 static const flex_int16_t yy_accept[216] =
     {   0,
-        0,    0,   53,   51,   50,   50,   51,   51,   42,   40,
-       44,   41,   43,   47,   33,   46,   36,   45,   37,   49,
-       49,   49,   49,   49,   49,   49,   49,   49,   49,   49,
-       49,   49,   35,    0,   48,   47,   38,   34,   39,   49,
-       49,   49,   49,   49,   49,   49,   49,   49,   49,   49,
-       49,   49,   49,   28,   49,   49,   49,   49,   27,   49,
-       49,   49,   49,   49,   49,   49,    3,   49,   49,   49,
-       49,   49,   49,   49,   49,   49,   49,    4,   49,   49,
-        9,   49,   49,   49,   49,   49,   49,   49,   49,   49,
-       49,   49,   49,   49,   49,   49,   49,   49,   49,   49,
+        0,    0,   54,   52,   51,   46,   52,   52,   42,   40,
+       44,   41,   43,   48,   33,   47,   36,   45,   37,   50,
+       50,   50,   50,   50,   50,   50,   50,   50,   50,   50,
+       50,   50,   35,    0,   49,   48,   38,   34,   39,   50,
+       50,   50,   50,   50,   50,   50,   50,   50,   50,   50,
+       50,   50,   50,   28,   50,   50,   50,   50,   27,   50,
+       50,   50,   50,   50,   50,   50,    3,   50,   50,   50,
+       50,   50,   50,   50,   50,   50,   50,    4,   50,   50,
+        9,   50,   50,   50,   50,   50,   50,   50,   50,   50,
+       50,   50,   50,   50,   50,   50,   50,   50,   50,   50,
 
-       49,   49,   49,   49,   49,   49,   49,   49,   31,   49,
-       49,   49,   49,   49,   49,   49,   49,   49,   12,   49,
-       49,   10,   30,    7,   26,   49,   49,   49,    1,   49,
-       49,   49,   49,   49,   49,   49,   49,   49,   49,   49,
-        2,   49,   49,   49,   49,   49,   49,   49,   11,   49,
-       49,   19,   49,    5,   49,   49,   49,   49,   49,    6,
-       49,   49,   13,   32,   49,   49,   49,   49,   49,   49,
-       49,   49,   49,   49,   49,   49,   49,   49,   49,   49,
-       49,   17,   24,   25,   49,    8,   49,   18,   49,   23,
-       49,   20,   49,   49,   49,   49,   49,   49,   14,   49,
+       50,   50,   50,   50,   50,   50,   50,   50,   31,   50,
+       50,   50,   50,   50,   50,   50,   50,   50,   12,   50,
+       50,   10,   30,    7,   26,   50,   50,   50,    1,   50,
+       50,   50,   50,   50,   50,   50,   50,   50,   50,   50,
+        2,   50,   50,   50,   50,   50,   50,   50,   11,   50,
+       50,   19,   50,    5,   50,   50,   50,   50,   50,    6,
+       50,   50,   13,   32,   50,   50,   50,   50,   50,   50,
+       50,   50,   50,   50,   50,   50,   50,   50,   50,   50,
+       50,   17,   24,   25,   50,    8,   50,   18,   50,   23,
+       50,   20,   50,   50,   50,   50,   50,   50,   14,   50,
 
-       49,   49,   49,   21,   22,   49,   49,   49,   49,   49,
-       16,   49,   29,   15,    0
+       50,   50,   50,   21,   22,   50,   50,   50,   50,   50,
+       16,   50,   29,   15,    0
     } ;
 
 static const YY_CHAR yy_ec[256] =
@@ -1075,43 +1075,49 @@ YY_RULE_SETUP
 { printf("Token IGUALDADE encontrado\n"); return IGUALDADE; }
 	YY_BREAK
 case 46:
+/* rule 46 can match eol */
 YY_RULE_SETUP
 #line 53 "src/tradutor.l"
-{ printf("Token PONTO_VIRGULA encontrado\n"); return PONTO_E_VIRGULA; }
+{ yylineno++; }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
 #line 54 "src/tradutor.l"
-{ printf("Token NUM encontrado: %s\n", yytext); yylval.inteiro = atoi(yytext); return NUM; }
+{ printf("Token PONTO_VIRGULA encontrado\n"); return PONTO_E_VIRGULA; }
 	YY_BREAK
 case 48:
-/* rule 48 can match eol */
 YY_RULE_SETUP
 #line 55 "src/tradutor.l"
-{ printf("Token STRING encontrado: %s\n", yytext); yylval.texto = strdup(yytext); return STRING; }
+{ printf("Token NUM encontrado: %s\n", yytext); yylval.inteiro = atoi(yytext); return NUM; }
 	YY_BREAK
 case 49:
+/* rule 49 can match eol */
 YY_RULE_SETUP
 #line 56 "src/tradutor.l"
-{ printf("Token IDENTIFICADOR encontrado: %s\n", yytext); yylval.identificador = strdup(yytext); return IDENTIFICADOR; }
+{ printf("Token STRING encontrado: %s\n", yytext); yylval.texto = strdup(yytext); return STRING; }
 	YY_BREAK
 case 50:
-/* rule 50 can match eol */
 YY_RULE_SETUP
 #line 57 "src/tradutor.l"
-{ /* Ignorar espaços e quebras de linha */ }
+{ printf("Token IDENTIFICADOR encontrado: %s\n", yytext); yylval.identificador = strdup(yytext); return IDENTIFICADOR; }
 	YY_BREAK
 case 51:
+/* rule 51 can match eol */
 YY_RULE_SETUP
 #line 58 "src/tradutor.l"
-{ printf("Token desconhecido encontrado: %s\n", yytext); return yytext[0]; }
+{ /* Ignorar espaços e quebras de linha */ }
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 60 "src/tradutor.l"
+#line 59 "src/tradutor.l"
+{ printf("Token desconhecido encontrado: %s\n", yytext); return yytext[0]; }
+	YY_BREAK
+case 53:
+YY_RULE_SETUP
+#line 61 "src/tradutor.l"
 ECHO;
 	YY_BREAK
-#line 1115 "lex.yy.c"
+#line 1121 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2116,6 +2122,6 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 60 "src/tradutor.l"
+#line 61 "src/tradutor.l"
 
 
